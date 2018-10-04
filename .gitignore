@@ -1,0 +1,10 @@
+/node_modules
+/storage/*.key
+/vendor
+/.idea
+/.vscode
+/.vagrant
+Homestead.json
+npm-debug.log
+yarn-error.log
+.phpunit.result.cache
