@@ -1,9 +1,10 @@
 <?php
 
-namespace Bitfumes\Blog\Http\Controllers;
+namespace Bitfumes\Blogg\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Bitfumes\Blog\Models\Category;
+use Bitfumes\Blogg\Models\Category;
+use Illuminate\Routing\Controller;
 
 class CategoryController extends Controller
 {
