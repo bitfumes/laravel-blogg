@@ -29,7 +29,7 @@ class BlogTest extends TestCase
     {
         $blog = $this->createBlog();
         $category = $blog->category;
-        $this->assertEquals($blog->path(), asset("{$category->slug}/{$blog->slug}"));
+        $this->assertEquals($blog->path(), asset("/blog/{$category->slug}/{$blog->slug}"));
     }
 
     /** @test */

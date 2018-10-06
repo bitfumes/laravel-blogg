@@ -9,9 +9,15 @@ use Bitfumes\Blogg\Http\Resources\BlogResource;
 use Bitfumes\Blogg\Http\Resources\BlogCollection;
 use Bitfumes\Blogg\Http\Requests\BlogRequest;
 use Symfony\Component\HttpFoundation\Response;
+use Bitfumes\Blogg\Models\Category;
 
 class BlogController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index', 'show');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +48,7 @@ class BlogController extends Controller
      * @param Blog $blog
      * @return BlogResource
      */
-    public function show(Blog $blog)
+    public function show(Category $category, Blog $blog)
     {
         return new BlogResource($blog);
     }

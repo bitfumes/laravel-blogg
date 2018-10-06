@@ -77,7 +77,7 @@ class Blog extends Model implements HasMedia
      */
     public function path()
     {
-        return asset("{$this->category->slug}/{$this->slug}");
+        return asset("blog/{$this->category->slug}/{$this->slug}");
     }
 
     public function getImagePathAttribute()

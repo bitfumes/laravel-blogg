@@ -4,17 +4,23 @@ namespace Bitfumes\Blogg\Tests\Feature;
 
 use Bitfumes\Blogg\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Bitfumes\Blogg\Http\Resources\BlogResource;
 use Bitfumes\Blogg\Models\Blog;
+use Bitfumes\Blogg\Http\Resources\BlogCollection;
 
 class BlogTest extends TestCase
 {
     use DatabaseMigrations;
 
+    public function setup()
+    {
+        parent::setUp();
+        $this->mediaLibraryConfigs();
+    }
+
     /** @test */
     public function api_give_all_blog()
     {
-        $blog = BlogResource::collection($this->createBlog(3));
+        $blog = new BlogCollection($this->createPublishedBlog(3));
         $res = $this->get(route('blog.index'))
         ->assertOk()
         ->assertJsonStructure(['data', 'meta', 'links']);
@@ -33,10 +39,10 @@ class BlogTest extends TestCase
     public function api_can_give_single_blog_details()
     {
         $blog = $this->createPublishedBlog();
-        $this->get(route('blog.show', $blog->slug))
+        $this->get($blog->path())
         ->assertOk()
         ->assertJsonStructure([
-            'data' => ['title', 'path']
+            'data' => ['title', 'path', 'body', 'image_path', 'thumb_path', 'published_at']
         ]);
     }
 
@@ -55,7 +61,6 @@ class BlogTest extends TestCase
     /** @test */
     public function an_authorized_user_can_store_blog_along_with_image_if_given()
     {
-        $this->mediaLibraryConfigs();
         $photo = \Illuminate\Http\Testing\File::image('photo.jpg');
         $this->loggedInUser();
         $res = $this->post(route('blog.store'), [
@@ -86,7 +91,6 @@ class BlogTest extends TestCase
     public function an_authorized_user_can_delete_a_blog()
     {
         $this->loggedInUser();
-        $this->mediaLibraryConfigs();
         $blog = $this->createBlog();
         $this->deleteJson(route('blog.destroy', $blog->slug))->assertStatus(204);
         $this->assertDatabaseMissing('blogs', ['title'=>$blog->title]);

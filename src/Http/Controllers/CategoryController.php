@@ -5,9 +5,18 @@ namespace Bitfumes\Blogg\Http\Controllers;
 use Illuminate\Http\Request;
 use Bitfumes\Blogg\Models\Category;
 use Illuminate\Routing\Controller;
+use Bitfumes\Blogg\Http\Resources\CategoryCollection;
+use Bitfumes\Blogg\Http\Requests\CategoryRequest;
+use Illuminate\Http\Response;
+use Bitfumes\Blogg\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index', 'show');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +24,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return new CategoryCollection($categories);
     }
 
     /**
@@ -34,9 +44,10 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        //
+        $category = Category::create($request->all());
+        return response($category, Response::HTTP_CREATED);
     }
 
     /**
@@ -47,7 +58,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return new CategoryResource($category);
     }
 
     /**
@@ -68,19 +79,21 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        //
+        $category->update($request->except(['_method']));
+        return response($category, Response::HTTP_ACCEPTED);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
+     * @param Category $blog
+     * @return void
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

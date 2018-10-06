@@ -74,17 +74,6 @@ class TestCase extends BaseTestCase
      * @param array $args
      * @return mixed
      */
-    public function logInUser($args = [])
-    {
-        $user = $this->createUser($args);
-        $this->actingAs($user);
-        return $user;
-    }
-
-    /**
-     * @param array $args
-     * @return mixed
-     */
     public function createUser($args = [])
     {
         return factory(User::class)->create($args);
