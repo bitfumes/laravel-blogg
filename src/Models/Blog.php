@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
+use Bitfumes\Likker\Contracts\Likeable;
+use Bitfumes\Likker\Traits\CanBeLiked;
 
-class Blog extends Model implements HasMedia
+class Blog extends Model implements HasMedia, Likeable
 {
-    use HasMediaTrait;
+    use HasMediaTrait, CanBeLiked;
 
     public function registerMediaConversions(Media $media = null)
     {

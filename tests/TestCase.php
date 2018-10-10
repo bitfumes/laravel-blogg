@@ -15,8 +15,20 @@ class TestCase extends BaseTestCase
         parent::setUp();
         $this->withoutExceptionHandling();
         $this->artisan('migrate', ['--database' => 'testing']);
-        $this->loadLaravelMigrations(['--database' => 'testing']);
-        $this->withFactories(__DIR__ . '/../src/database/factories');
+        $this->loadMigrations();
+        $this->loadFactories();
+    }
+
+    protected function loadFactories()
+    {
+        $this->withFactories(__DIR__ . '/../src/database/factories'); // package factories
+        $this->withFactories(__DIR__ . '/database/factories'); // Test factories
+    }
+
+    protected function loadMigrations()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testing']); // package migrations
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations'); // test migrations
     }
 
     /**

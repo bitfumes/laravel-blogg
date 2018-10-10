@@ -11,4 +11,6 @@ Route::group([
         Route::delete('/{blog}', 'BlogController@destroy')->name('blog.destroy');
         Route::get('/{category}/{blog}', 'BlogController@show')->name('blog.show');
     });
+    Route::post('{blog}/like', 'LikeController@likeIt')->name('blog.like');
+    Route::post('{blog}/unlike', 'LikeController@unLikeIt')->name('blog.unlike');
 });

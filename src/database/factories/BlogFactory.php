@@ -18,5 +18,6 @@ $factory->define(Bitfumes\Blogg\Models\Blog::class, function (Faker $faker) {
         'category_id' => function () {
             return factory(Category::class)->create()->id;
         },
+        'series' => 0
     ];
 });
