@@ -15,7 +15,7 @@ class BlogController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except('index', 'show');
+        // $this->middleware('auth')->except('index', 'show');
     }
 
     /**
@@ -38,8 +38,9 @@ class BlogController extends Controller
      */
     public function store(BlogRequest $request)
     {
-        $blog = auth()->user()->createBlog($request);
-        return response($blog, 201);
+        // $blog = auth()->user()->createBlog($request);
+        $blog = Blog::store($request);
+        return response(null, Response::HTTP_CREATED);
     }
 
     /**
@@ -63,7 +64,7 @@ class BlogController extends Controller
     public function update(BlogRequest $request, Blog $blog)
     {
         $blog->update($request->all());
-        return response($blog, Response::HTTP_ACCEPTED);
+        return response(null, Response::HTTP_ACCEPTED);
     }
 
     /**

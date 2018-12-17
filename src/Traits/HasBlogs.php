@@ -10,18 +10,4 @@ trait HasBlogs
     {
         return $this->hasMany(Blog::class);
     }
-
-    public function createBlog($request)
-    {
-        $blog = $this->blogs()->create($request->except('image', 'tag_ids'));
-        $blog->tags()->sync(request('tag_ids'));
-        if ($request->has('image')) {
-            $blog->addMedia($request->image)
-                ->sanitizingFileName(function ($fileName) {
-                    return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
-                })
-                ->toMediaCollection();
-        }
-        return $blog;
-    }
 }

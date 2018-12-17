@@ -13,22 +13,23 @@
               <v-card-title>
                 <span class="headline">{{ formTitle }}</span>
               </v-card-title>
+              <form>
+                <v-card-text>
+                  <v-container grid-list-md>
+                    <v-layout wrap>
+                      <v-flex xs12>
+                        <v-text-field v-model="editedItem.name" autofocus label="Category name"></v-text-field>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-card-text>
 
-              <v-card-text>
-                <v-container grid-list-md>
-                  <v-layout wrap>
-                    <v-flex xs12>
-                      <v-text-field v-model="editedItem.name" label="Category name"></v-text-field>
-                    </v-flex>
-                  </v-layout>
-                </v-container>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-                <v-btn color="blue darken-1" flat @click="store">Save</v-btn>
-              </v-card-actions>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
+                  <v-btn color="blue darken-1" type="submit" flat @click.prevent="store">Save</v-btn>
+                </v-card-actions>
+              </form>
             </v-card>
           </v-dialog>
         </v-toolbar>

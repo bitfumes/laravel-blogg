@@ -1,9 +1,9 @@
 <template >
   <Dashboard>
-    <div slot="title">Write new Blog</div>
+    <div slot="title">Edit This Blog</div>
 
     <div slot="content">
-      <form @submit="onSubmit">
+      <form @submit.prevent="onSubmit">
         <v-text-field
           label="Title"
           placeholder="Your Rocking Title"
@@ -13,21 +13,23 @@
           counter="40"
           :rules="[() => !!form.title && form.title.length <= 80 || 'Title must be less than 80 characters']"
         ></v-text-field>
+        <span class="red--text" v-if="errors.title">{{ errors.title[0] }}</span>
 
-        <v-container grid-list-md text-xs-center>
+        <v-container grid-list-md>
           <v-layout>
             <v-flex xs6>
-              <v-select
+              <v-autocomplete
                 item-text="name"
                 item-value="id"
                 :items="categories"
                 v-model="form.category_id"
                 label="Category"
                 autocomplete
-              ></v-select>
+              ></v-autocomplete>
+              <span class="red--text" v-if="errors.category_id">{{ errors.category_id[0] }}</span>
             </v-flex>
             <v-flex xs6>
-              <v-select
+              <v-autocomplete
                 item-text="name"
                 item-value="id"
                 :items="tags"
@@ -36,7 +38,8 @@
                 chips
                 v-model="form.tag_ids"
                 label="Tags"
-              ></v-select>
+              ></v-autocomplete>
+              <span class="red--text" v-if="errors.tag_ids">{{ errors.tag_ids[0] }}</span>
             </v-flex>
           </v-layout>
         </v-container>
@@ -55,7 +58,7 @@
         <v-container grid-list-md>
           <v-layout>
             <v-flex xs6>
-              <v-checkbox :label="`Published`" v-model="form.category_id"></v-checkbox>
+              <v-checkbox :label="`Published`" v-model="form.published"></v-checkbox>
             </v-flex>
             <v-flex xs6>
               <v-btn color="success" type="submit">Store</v-btn>
@@ -68,22 +71,23 @@
 </template>
 
 <script>
-import Dashboard from "./Dashboard";
-import markdown from "../../simplemde-configs";
-import FeaturedImage from "./ImageUpload/Image";
+import markdown from "../../../simplemde-configs";
+import FeaturedImage from "../ImageUpload/Image";
 
 export default {
   data() {
     return {
       form: {
-        body: null,
-        title: null,
-        tag_ids: [],
-        category_id: null,
-        image: null
+        body: "Hello",
+        title: "This is title",
+        tag_ids: [1, 2],
+        category_id: 1,
+        image: null,
+        published: true
       },
       categories: [],
-      tags: []
+      tags: [],
+      errors: []
     };
   },
   created() {
@@ -102,13 +106,25 @@ export default {
         this.tags = res.data.data;
       });
     },
-    onSubmit() {},
+    onSubmit() {
+      axios
+        .post("/api/blog/store", this.form)
+        .then(res => {
+          flash("Created.");
+          this.$router.push({ name: "blog.index" });
+        })
+        .catch(err => {
+          this.errors = err.response.data.errors;
+          document.documentElement.scrollTop = 0;
+          flash("Please check for any error", "error");
+        });
+    },
     setImage() {
       Event.$on("image", value => (this.form.image = value));
     }
   },
   mixins: [markdown],
-  components: { Dashboard, FeaturedImage }
+  components: { FeaturedImage }
 };
 </script>
 

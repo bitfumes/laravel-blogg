@@ -20,9 +20,8 @@ class CreateBlogsTable extends Migration
             // $table->string('image_path')->nullable();
             $table->longText('body');
             $table->dateTime('published_at')->nullable();
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('category_id');
-            $table->boolean('series')->default(0);
             $table->timestamps();
         });
     }

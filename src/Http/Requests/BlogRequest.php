@@ -24,10 +24,9 @@ class BlogRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'          => 'required|max:100|unique:blogs,id',
+            'title'          => 'required|max:100|unique:blogs,title',
             'body'           => 'required',
             'category_id'    => 'required|exists:categories,id',
-            'image'          => 'mimes:jpeg,png,jpg',
             'tag_ids'        => 'required'
         ];
     }
