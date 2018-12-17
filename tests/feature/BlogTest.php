@@ -15,13 +15,14 @@ class BlogTest extends TestCase
     {
         parent::setUp();
         $this->mediaLibraryConfigs();
+        $this->tagIds = $this->createTag(2)->pluck('id');
     }
 
     /** @test */
     public function api_give_all_blog()
     {
         $blog = new BlogCollection($this->createPublishedBlog(3));
-        $res = $this->get(route('blog.index'))
+        $res  = $this->post(route('blog.index'))
         ->assertOk()
         ->assertJsonStructure(['data', 'meta', 'links']);
     }
@@ -31,7 +32,7 @@ class BlogTest extends TestCase
     {
         $blog = $this->createPublishedBlog(10);
         $this->createBlog(3);
-        $res = $this->get(route('blog.index'))->assertOk();
+        $res = $this->post(route('blog.index'))->assertOk();
         $this->assertEquals(10, $res->baseResponse->getData()->meta->total);
     }
 
@@ -39,7 +40,7 @@ class BlogTest extends TestCase
     public function api_can_give_single_blog_details()
     {
         $blog = $this->createPublishedBlog();
-        $this->get($blog->path())
+        $this->post($blog->path())
         ->assertOk()
         ->assertJsonStructure([
             'data' => ['title', 'path', 'body', 'image_path', 'thumb_path', 'published_at']
@@ -47,15 +48,17 @@ class BlogTest extends TestCase
     }
 
     /** @test */
-    public function an_authorized_user_can_store_blog()
+    public function an_authorized_user_can_store_blog_and_tags()
     {
         $this->loggedInUser();
         $res = $this->post(route('blog.store'), [
-            'title'       => 'New Title',
-            'body'        => 'This is a body',
-            'category_id' => $this->createCategory()->id
+            'title'          => 'New Title',
+            'body'           => 'This is a body',
+            'category_id'    => $this->createCategory()->id,
+            'tag_ids'        => $this->tagIds
         ])->assertStatus(201);
         $this->assertDatabaseHas('blogs', ['slug'=>'new-title']);
+        $this->assertDatabaseHas('taggables', ['tag_id'=>$this->tagIds->random()]);
     }
 
     /** @test */
@@ -63,11 +66,13 @@ class BlogTest extends TestCase
     {
         $photo = \Illuminate\Http\Testing\File::image('photo.jpg');
         $this->loggedInUser();
+
         $res = $this->post(route('blog.store'), [
-            'title'       => 'New Title',
-            'body'        => 'This is a body',
-            'category_id' => $this->createCategory()->id,
-            'image'       => $photo
+            'title'          => 'New Title',
+            'body'           => 'This is a body',
+            'category_id'    => $this->createCategory()->id,
+            'image'          => $photo,
+            'tag_ids'        => $this->tagIds
         ])->assertStatus(201);
         $blog = Blog::find(1);
         // dd($blog->getMedia()[0]->getUrl('thumb'));
@@ -80,9 +85,10 @@ class BlogTest extends TestCase
         $this->loggedInUser();
         $blog = $this->createBlog();
         $this->put(route('blog.update', $blog->slug), [
-            'title'       => 'New Title',
-            'body'        => $blog->body,
-            'category_id' => $blog->category->id
+            'title'          => 'New Title',
+            'body'           => $blog->body,
+            'category_id'    => $blog->category->id,
+            'tag_ids'        => $this->tagIds
         ])->assertStatus(202);
         $this->assertDatabaseHas('blogs', ['slug' => 'new-title']);
     }

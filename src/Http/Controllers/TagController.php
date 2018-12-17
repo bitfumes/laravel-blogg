@@ -2,15 +2,14 @@
 
 namespace Bitfumes\Blogg\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Bitfumes\Blogg\Models\Category;
 use Illuminate\Routing\Controller;
-use Bitfumes\Blogg\Http\Resources\CategoryCollection;
-use Bitfumes\Blogg\Http\Requests\CategoryRequest;
-use Illuminate\Http\Response;
-use Bitfumes\Blogg\Http\Resources\CategoryResource;
+use Bitfumes\Blogg\Models\Tag;
+use Bitfumes\Blogg\Http\Resources\TagCollection;
+use Bitfumes\Blogg\Http\Resources\TagResource;
+use Bitfumes\Blogg\Http\Requests\TagRequest;
+use Symfony\Component\HttpFoundation\Response;
 
-class CategoryController extends Controller
+class TagController extends Controller
 {
     public function __construct()
     {
@@ -24,8 +23,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return new CategoryCollection($categories);
+        $categories = Tag::all();
+        return new TagCollection($categories);
     }
 
     /**
@@ -44,30 +43,30 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request)
+    public function store(TagRequest $request)
     {
-        $category = Category::create($request->all());
-        return response($category, Response::HTTP_CREATED);
+        $Tag = Tag::store($request->all());
+        return response($Tag, Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Tag  $Tag
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Tag $Tag)
     {
-        return new CategoryResource($category);
+        return new TagResource($Tag);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Tag  $Tag
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Tag $Tag)
     {
         //
     }
@@ -76,30 +75,24 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
+     * @param  \App\Tag  $Tag
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, Category $category)
+    public function update(TagRequest $request, Tag $tag)
     {
-        $category->update($request->except(['_method']));
-        return response($category, Response::HTTP_ACCEPTED);
+        $tag->update($request->except(['_method']));
+        return response($tag, Response::HTTP_ACCEPTED);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Category $blog
+     * @param Tag $blog
      * @return void
      */
-    public function destroy(Category $category)
+    public function destroy(Tag $Tag)
     {
-        $category->delete();
+        $Tag->delete();
         return response(null, Response::HTTP_NO_CONTENT);
-    }
-
-    public function search($query)
-    {
-        $result = Category::where('name', 'like', "%$query%")->get();
-        return new CategoryCollection($result);
     }
 }

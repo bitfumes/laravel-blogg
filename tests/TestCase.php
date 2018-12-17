@@ -7,6 +7,7 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 use Bitfumes\Blogg\Models\Blog;
 use Bitfumes\Blogg\Models\Category;
 use Illuminate\Support\Carbon;
+use Bitfumes\Blogg\Models\Tag;
 
 class TestCase extends BaseTestCase
 {
@@ -109,6 +110,16 @@ class TestCase extends BaseTestCase
     public function createCategory($num = null, $args = [])
     {
         return factory(Category::class, $num)->create($args);
+    }
+
+    /**
+     * @param int $num
+     * @param array $args
+     * @return mixed
+     */
+    public function createTag($num = null, $args = [])
+    {
+        return factory(Tag::class, $num)->create($args);
     }
 
     /**

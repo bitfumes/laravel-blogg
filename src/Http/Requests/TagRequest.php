@@ -4,7 +4,7 @@ namespace Bitfumes\Blogg\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BlogRequest extends FormRequest
+class TagRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,7 @@ class BlogRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'          => 'required|max:100|unique:blogs,id',
-            'body'           => 'required',
-            'category_id'    => 'required|exists:categories,id',
-            'image'          => 'mimes:jpeg,png,jpg',
-            'tag_ids'        => 'required'
+            'name' => 'required|max:20|unique:tags'
         ];
     }
 }

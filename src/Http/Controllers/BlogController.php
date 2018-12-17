@@ -26,7 +26,7 @@ class BlogController extends Controller
     public function index()
     {
         $paginate = app()['config']['blogg.paginate'];
-        $blogs = Blog::published()->paginate($paginate);
+        $blogs    = Blog::published()->paginate($paginate);
         return new BlogCollection($blogs);
     }
 

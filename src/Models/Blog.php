@@ -67,6 +67,14 @@ class Blog extends Model implements HasMedia, Likeable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
@@ -79,7 +87,7 @@ class Blog extends Model implements HasMedia, Likeable
      */
     public function path()
     {
-        return asset("blog/{$this->category->slug}/{$this->slug}");
+        return asset("api/blog/{$this->category->slug}/{$this->slug}");
     }
 
     public function getImagePathAttribute()

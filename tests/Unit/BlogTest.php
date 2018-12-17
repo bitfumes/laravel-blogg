@@ -11,13 +11,6 @@ class BlogTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function a_blog_has_one_category()
-    {
-        $blog = $this->createBlog();
-        $this->assertEquals(1, $blog->category->count());
-    }
-
-    /** @test */
     public function a_blog_has_one_user_who_has_created_it()
     {
         $blog = $this->createBlog();
@@ -27,9 +20,9 @@ class BlogTest extends TestCase
     /** @test */
     public function a_blog_know_its_path()
     {
-        $blog = $this->createBlog();
+        $blog     = $this->createBlog();
         $category = $blog->category;
-        $this->assertEquals($blog->path(), asset("/blog/{$category->slug}/{$blog->slug}"));
+        $this->assertEquals($blog->path(), asset("api/blog/{$category->slug}/{$blog->slug}"));
     }
 
     /** @test */

@@ -13,7 +13,8 @@ trait HasBlogs
 
     public function createBlog($request)
     {
-        $blog = $this->blogs()->create($request->except('image'));
+        $blog = $this->blogs()->create($request->except('image', 'tag_ids'));
+        $blog->tags()->sync(request('tag_ids'));
         if ($request->has('image')) {
             $blog->addMedia($request->image)
                 ->sanitizingFileName(function ($fileName) {
