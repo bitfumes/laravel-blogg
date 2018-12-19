@@ -53,7 +53,7 @@
           :configs="configs"
         ></markdown-editor>
 
-        <Featured-Image :formImage="form.image"></Featured-Image>
+        <Featured-Image :formImage="form.image" :width="1080"></Featured-Image>
 
         <v-container grid-list-md>
           <v-layout>

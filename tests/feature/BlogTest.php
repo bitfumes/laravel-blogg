@@ -65,6 +65,7 @@ class BlogTest extends TestCase
     public function an_authorized_user_can_store_blog_along_with_image_if_given()
     {
         $photo = \Illuminate\Http\Testing\File::image('photo.jpg');
+        $photo = 'data:image/png;base64,' . base64_encode(file_get_contents($photo));
         $this->loggedInUser();
 
         $res = $this->post(route('blog.store'), [
@@ -100,5 +101,15 @@ class BlogTest extends TestCase
         $blog = $this->createBlog();
         $this->deleteJson(route('blog.destroy', $blog->slug))->assertStatus(204);
         $this->assertDatabaseMissing('blogs', ['title'=>$blog->title]);
+    }
+
+    /** @test */
+    public function it_can_provide_all_blogs_published_and_unpublished_both()
+    {
+        $this->createPublishedBlog(3);
+        $blog = $this->createBlog();
+        $res  = $this->post(route('blog.all'))->assertOk();
+        $data = json_decode($res->getContent())->data;
+        $this->assertEquals(4, count($data));
     }
 }

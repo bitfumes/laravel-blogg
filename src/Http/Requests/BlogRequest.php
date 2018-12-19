@@ -24,7 +24,7 @@ class BlogRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'          => 'required|max:100|unique:blogs,title',
+            'title'          => 'required|max:100|unique:blogs,title,' . $this->id,
             'body'           => 'required',
             'category_id'    => 'required|exists:categories,id',
             'tag_ids'        => 'required'

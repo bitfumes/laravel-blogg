@@ -11,7 +11,7 @@ $factory->define(Bitfumes\Blogg\Models\Blog::class, function (Faker $faker) {
         'slug'              => str_slug($title),
         // 'image_path'        => $faker->url,
         'body'              => $faker->paragraph,
-        'published_at'      => null,
+        'published'         => false,
         'user_id'           => function () {
             return factory(User::class)->create()->id;
         },

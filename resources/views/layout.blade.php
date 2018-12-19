@@ -10,15 +10,20 @@
     <title>Bitfumes</title>
 
     <!-- Style sheets-->
-    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
     <link href="{{ asset(mix($cssFile, 'vendor/blogg')) }}" rel="stylesheet" type="text/css">
+    <script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </head>
 <body>
 
-<div id="blogg">
+<div id="blogg" data-app>
     <flash message="{{session('flash')}}"></flash>
     <router-view></router-view>
 </div>
+<script>
+window.apiEndpoint = "{{ config('app.url') }}/api"
+</script>
 
 <script src="{{asset(mix('app.js', 'vendor/blogg'))}}"></script>
 </body>

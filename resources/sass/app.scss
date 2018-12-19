@@ -3,16 +3,12 @@
 
 // Variables
 @import 'variables';
-
-// Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
 @import '~vuetify/dist/vuetify.min.css';
-@import '~material-design-icons-iconfont/dist/material-design-icons.css';
 
 @import "~vue-snotify/styles/material";
 
-.navbar-laravel {
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+a {
+    text-decoration: none !important;
 }

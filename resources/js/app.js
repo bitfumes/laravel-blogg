@@ -1,4 +1,5 @@
 require('./bootstrap');
+require('./auth');
 
 // window.Vue = require('vue');
 
@@ -20,8 +21,12 @@ window.flash = function (message, color = 'success') {
     })
 }
 
+var moment = require('moment');
+window.moment = moment;
+
 Vue.component('Header', require('./components/Header.vue'));
 Vue.component('Dashboard', require('./components/dashboard/Dashboard'))
+Vue.component('DetailCard', require('./components/utility/DetailCard'))
 Vue.component('flash', require('./components/utility/Flash.vue'));
 
 import router from './router.js'

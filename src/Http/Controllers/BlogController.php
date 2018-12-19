@@ -31,6 +31,17 @@ class BlogController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return BlogCollection
+     */
+    public function all()
+    {
+        $blogs    = Blog::latest()->get();
+        return new BlogCollection($blogs);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -39,8 +50,20 @@ class BlogController extends Controller
     public function store(BlogRequest $request)
     {
         // $blog = auth()->user()->createBlog($request);
+
         $blog = Blog::store($request);
         return response(null, Response::HTTP_CREATED);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Blog $blog
+     * @return BlogResource
+     */
+    public function edit(Blog $blog)
+    {
+        return new BlogResource($blog);
     }
 
     /**
@@ -63,7 +86,7 @@ class BlogController extends Controller
      */
     public function update(BlogRequest $request, Blog $blog)
     {
-        $blog->update($request->all());
+        $blog->updateAll($request->all());
         return response(null, Response::HTTP_ACCEPTED);
     }
 
@@ -73,7 +96,7 @@ class BlogController extends Controller
      * @param Blog $blog
      * @return void
      */
-    public function destroy(Blog $blog)
+    public function destroy(Category $category, Blog $blog)
     {
         $blog->delete();
         return response(null, Response::HTTP_NO_CONTENT);

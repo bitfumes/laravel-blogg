@@ -19,7 +19,7 @@ class CreateBlogsTable extends Migration
             $table->string('slug');
             // $table->string('image_path')->nullable();
             $table->longText('body');
-            $table->dateTime('published_at')->nullable();
+            $table->boolean('published')->default(0);
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('category_id');
             $table->timestamps();

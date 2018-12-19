@@ -7,17 +7,24 @@
       </router-link>
     </div>
     <div slot="content">
-      <v-data-table :headers="headers" :items="items" :pagination.sync="pagination" hide-actions>
+      <v-data-table :headers="headers" :items="items" :pagination.sync="pagination">
         <template slot="items" slot-scope="props">
           <td>
             <v-avatar :size="50" color="grey lighten-4">
               <img :src="props.item.thumb_path" alt="avatar">
             </v-avatar>
           </td>
+
           <td>{{ props.item.title }}</td>
+
+          <td class="text-xs-left">{{ props.item.category.name }}</td>
+
           <td class="text-xs-left">{{ props.item.published_at }}</td>
+
           <td class="justify-center layout px-0 mt-2">
-            <v-icon small color="orange" class="mr-2" @click="editItem(props.item)">edit</v-icon>
+            <router-link :to="{name:'blog.edit', params: { slug: props.item.slug }}">
+              <v-icon small color="orange" class="mr-2">edit</v-icon>
+            </router-link>
             <v-icon small color="red" @click="deleteItem(props.item)">delete</v-icon>
           </td>
         </template>
@@ -27,7 +34,7 @@
       </v-data-table>
 
       <div class="text-xs-center pt-2">
-        <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
+        <v-pagination v-model="pagination.page" :length="pages" rows-per-page-items="10"></v-pagination>
       </div>
     </div>
   </Dashboard>
@@ -48,7 +55,9 @@ export default {
           value: "title",
           width: "50%"
         },
-        { text: "Published", value: "published_at" }
+        { text: "Category", value: "category" },
+        { text: "Published", value: "published_at" },
+        { text: "Actions", value: null, sortable: false }
       ],
       items: [],
       itemUrl: "/api/category"
@@ -60,11 +69,19 @@ export default {
   methods: {
     getItems() {
       axios
-        .post("/api/blog")
+        .post("/api/blog/all")
         .then(res => {
           this.items = Object.values(res.data["data"]);
+          this.pagination.totalItems = res.data["data"].length;
         })
         .catch(err => {});
+    },
+    deleteItem(item) {
+      const index = this.items.indexOf(item);
+      confirm("Are you sure you want to delete this item?") &&
+        axios.delete(`${item.path}`).then(res => {
+          this.items.splice(index, 1);
+        });
     }
   },
   computed: {

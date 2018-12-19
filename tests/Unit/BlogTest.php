@@ -26,6 +26,15 @@ class BlogTest extends TestCase
     }
 
     /** @test */
+    public function a_blog_know_its_like_counts()
+    {
+        $this->loggedInUser();
+        $blog     = $this->createBlog();
+        $blog->likeIt();
+        $this->assertEquals(1, $blog->countLikes());
+    }
+
+    /** @test */
     public function a_blog_has_published_query_scope()
     {
         $blog1 = $this->createPublishedBlog();
@@ -41,7 +50,9 @@ class BlogTest extends TestCase
         $this->assertNull($blog->image_path);
 
         $photo = \Illuminate\Http\Testing\File::image('photo.jpg');
-        $blog->addMedia($photo)->toMediaCollection();
+
+        $photo = 'data:image/png;base64,' . base64_encode(file_get_contents($photo));
+        $blog->addMediaFromBase64($photo)->toMediaCollection('feature');
         $this->assertNotNull($blog->fresh()->image_path);
         $this->assertNotNull($blog->fresh()->thumb_path);
     }

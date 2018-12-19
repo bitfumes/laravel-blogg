@@ -32,7 +32,7 @@ class LikeTest extends TestCase
     {
         $this->postJson(route('blog.like', $this->blog->slug));
         $this->assertDatabaseHas('likes', ['likeable_id'=>$this->blog->id]);
-        $this->postJson(route('blog.unlike', $this->blog->slug))
+        $this->deleteJson(route('blog.like', $this->blog->slug))
         ->assertStatus(201);
         $this->assertDatabaseMissing('likes', ['likeable_id'=>$this->blog->id]);
     }

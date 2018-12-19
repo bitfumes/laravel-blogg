@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'paginate' => 2,
+    'paginate' => 15,
     'thumb'    => [
         'width'   => 368,
         'height'  => 232,

@@ -1,11 +1,14 @@
 <template>
-  <v-toolbar>
-    <v-toolbar-side-icon></v-toolbar-side-icon>
-    <v-toolbar-title>Blog</v-toolbar-title>
+  <v-toolbar app fixed clipped-left>
+    <v-toolbar-side-icon @click="openDrawer"></v-toolbar-side-icon>
+    <v-toolbar-title>{{ title }}</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat>
-        <router-link to="/blog">Blog</router-link>
+        <router-link :to="{name:'front.blog.index'}">Blog</router-link>
+      </v-btn>
+      <v-btn flat>
+        <router-link :to="{name:'dashboard'}">Dashboard</router-link>
       </v-btn>
     </v-toolbar-items>
   </v-toolbar>
@@ -13,13 +16,11 @@
 
 <script>
 export default {
-  mounted() {
-    axios
-      .post("/api/blog")
-      .then(result => {
-        console.log(result);
-      })
-      .catch(err => {});
+  props: ["title"],
+  methods: {
+    openDrawer() {
+      Event.$emit("openDrawer");
+    }
   }
 };
 </script>

@@ -6,7 +6,6 @@ use Bitfumes\Blogg\BloggServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Bitfumes\Blogg\Models\Blog;
 use Bitfumes\Blogg\Models\Category;
-use Illuminate\Support\Carbon;
 use Bitfumes\Blogg\Models\Tag;
 
 class TestCase extends BaseTestCase
@@ -128,7 +127,7 @@ class TestCase extends BaseTestCase
      */
     public function createPublishedBlog($num = null)
     {
-        return factory(Blog::class, $num)->create(['published_at' => Carbon::now()]);
+        return factory(Blog::class, $num)->create(['published' => true]);
     }
 
     /**
@@ -143,7 +142,7 @@ class TestCase extends BaseTestCase
     public function loggedInUser()
     {
         $user = factory(User::class)->create();
-        $this->actingAs($user);
+        $this->actingAs($user, 'api');
         return $user;
     }
 }

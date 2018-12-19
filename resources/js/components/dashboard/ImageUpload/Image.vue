@@ -2,7 +2,7 @@
   <div>
     <div v-if="choose">
       <vue-avatar
-        :width="1200"
+        :width="width"
         :height="450"
         :border="0"
         style="top:0"
@@ -28,7 +28,7 @@
     </div>
 
     <a href="#" @click="select" v-if="!choose">
-      <img :src="formImage" alt id="avatar" :width="avatarWidth" height="450">
+      <img :src="formImage" alt id="avatar" :width="width" height="450">
       <br>
     </a>
     <v-container grid-list-xl text-xs-center>
@@ -41,28 +41,26 @@
 
 <script>
 import upload from "./upload";
+
 export default {
   mixins: [upload],
-  props: ["formImage", "edit"],
+  props: ["formImage", "edit", "width"],
   data() {
     return {
-      image: this.formImage
+      image: null
     };
   },
-  computed: {
-    avatarWidth() {
-      return document.getElementsByClassName('container').clientWidth;
-    }
-  },
   created() {
-    if (!this.image) {
-      this.choose = true;
-    }
+    setTimeout(() => {
+      this.image = this.formImage;
+      if (!this.image) {
+        this.choose = true;
+      }
+    }, 500);
   },
   watch: {
     image(value) {
-      Event.$emit('image',value)
-      // this.$parent.form.image = value;
+      Event.$emit("image", value);
     }
   },
   methods: {

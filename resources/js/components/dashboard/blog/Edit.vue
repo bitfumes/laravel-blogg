@@ -53,7 +53,7 @@
           :configs="configs"
         ></markdown-editor>
 
-        <Featured-Image :formImage="form.image"></Featured-Image>
+        <Featured-Image :formImage="form.image" :edit="false" :width="1080"></Featured-Image>
 
         <v-container grid-list-md>
           <v-layout>
@@ -73,17 +73,19 @@
 <script>
 import markdown from "../../../simplemde-configs";
 import FeaturedImage from "../ImageUpload/Image";
+import PostEdit from "../ImageUpload/PostEdit";
 
 export default {
   data() {
     return {
       form: {
-        body: "Hello",
-        title: "This is title",
-        tag_ids: [1, 2],
-        category_id: 1,
+        body: "",
+        title: "",
+        tag_ids: [],
+        category_id: null,
         image: null,
-        published: true
+        published: false,
+        id: null
       },
       categories: [],
       tags: [],
@@ -91,11 +93,32 @@ export default {
     };
   },
   created() {
+    this.fatchEditBlog();
     this.setImage();
     this.getCategory();
     this.getTags();
   },
+  computed: {
+    slug() {
+      return this.$route.params.slug;
+    }
+  },
   methods: {
+    fatchEditBlog() {
+      axios
+        .post(`/api/blog/${this.slug}`, { editing: true })
+        .then(res => {
+          this.form.title = res.data.data.title;
+          this.form.id = res.data.data.id;
+          this.form.body = res.data.data.body;
+          this.form.published = res.data.data.published_at ? true : false;
+          this.form.body = res.data.data.body;
+          this.form.image = res.data.data.image_path;
+          this.form.category_id = res.data.data.category.id;
+          this.form.tag_ids = res.data.data.tags.data.map(item => item.id);
+        })
+        .catch(err => {});
+    },
     getCategory() {
       axios.get(`/api/category`).then(res => {
         this.categories = res.data.data;
@@ -108,9 +131,9 @@ export default {
     },
     onSubmit() {
       axios
-        .post("/api/blog/store", this.form)
+        .put(`/api/blog/${this.slug}`, this.form)
         .then(res => {
-          flash("Created.");
+          flash("Updated.");
           this.$router.push({ name: "blog.index" });
         })
         .catch(err => {
@@ -123,7 +146,7 @@ export default {
       Event.$on("image", value => (this.form.image = value));
     }
   },
-  mixins: [markdown],
+  mixins: [markdown, PostEdit],
   components: { FeaturedImage }
 };
 </script>

@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-toolbar app fixed clipped-left>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Blog Dashboard</v-toolbar-title>
-    </v-toolbar>
+    <Header title="Blog Dashboard"></Header>
 
     <v-navigation-drawer v-model="drawer" clipped fixed app>
       <v-list dense>
@@ -17,22 +14,15 @@
             </router-link>
           </v-list-tile-content>
         </v-list-tile>
-
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>settings</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Settings</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
   </div>
 </template>
 
 <script>
+import Header from "../Header";
 export default {
+  components: { Header },
   data: () => ({
     drawer: null,
     links: [
@@ -42,6 +32,9 @@ export default {
       { name: "Tags", to: "tag" }
     ]
   }),
+  created() {
+    Event.$on("openDrawer", () => (this.drawer = !this.drawer));
+  },
   props: {
     source: String
   }
