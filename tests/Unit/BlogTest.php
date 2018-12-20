@@ -5,6 +5,7 @@ namespace Bitfumes\Blogg\Tests\Unit;
 use Bitfumes\Blogg\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Bitfumes\Blogg\Models\Blog;
+use GrahamCampbell\Markdown\Facades\Markdown;
 
 class BlogTest extends TestCase
 {
@@ -55,5 +56,14 @@ class BlogTest extends TestCase
         $blog->addMediaFromBase64($photo)->toMediaCollection('feature');
         $this->assertNotNull($blog->fresh()->image_path);
         $this->assertNotNull($blog->fresh()->thumb_path);
+    }
+
+    /** @test */
+    public function a_blog_can_give_markdown_parsed_body()
+    {
+        $blog = $this->createBlog(1, ['body' => 'Hello']);
+        $body = Markdown::convertToHtml($blog[0]->body);
+        $this->assertEquals('<p>Hello</p>
+', $body);
     }
 }

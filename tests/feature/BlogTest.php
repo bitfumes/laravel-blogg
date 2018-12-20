@@ -99,13 +99,14 @@ class BlogTest extends TestCase
     {
         $this->loggedInUser();
         $blog = $this->createBlog();
-        $this->deleteJson(route('blog.destroy', $blog->slug))->assertStatus(204);
+        $this->deleteJson(route('blog.destroy', ['category'=>$blog->category, 'blog'=> $blog->slug]))->assertStatus(204);
         $this->assertDatabaseMissing('blogs', ['title'=>$blog->title]);
     }
 
     /** @test */
-    public function it_can_provide_all_blogs_published_and_unpublished_both()
+    public function an_authorized_can_provide_all_blogs_published_and_unpublished_both()
     {
+        $this->loggedInUser();
         $this->createPublishedBlog(3);
         $blog = $this->createBlog();
         $res  = $this->post(route('blog.all'))->assertOk();
