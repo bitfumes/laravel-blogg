@@ -4,29 +4,8 @@
 
     <div slot="content">
       <v-layout justify-center>
-        <v-flex xs12 md4>
-          <detail-card
-            title="Total Blogs"
-            :to="{name:'blog.index'}"
-            btnName="Explore"
-            img="/vendor/blogg/images/blog.jpeg"
-          ></detail-card>
-        </v-flex>
-        <v-flex xs12 md4 class="ml-2">
-          <detail-card
-            title="Total Categories"
-            :to="{name:'category'}"
-            btnName="Explore"
-            img="/vendor/blogg/images/category.jpeg"
-          ></detail-card>
-        </v-flex>
-        <v-flex xs12 md4 class="ml-2">
-          <detail-card
-            title="Total Tags"
-            :to="{name:'tag'}"
-            btnName="Explore"
-            img="/vendor/blogg/images/tag.jpeg"
-          ></detail-card>
+        <v-flex xs12 md4 class="ml-2" v-for="item in items" :key="item.title">
+          <detail-card :title="item.title" :to="item.to" btnName="Explore" :img="item.img"></detail-card>
         </v-flex>
       </v-layout>
     </div>
@@ -36,7 +15,28 @@
 <script>
 import DetailCard from "../utility/DetailCard";
 export default {
-  components: { DetailCard }
+  components: { DetailCard },
+  data() {
+    return {
+      items: [
+        {
+          to: { name: "blog.index" },
+          img: "/vendor/blogg/images/blog.jpeg",
+          title: "Total Blogs"
+        },
+        {
+          to: { name: "category" },
+          img: "/vendor/blogg/images/category.jpeg",
+          title: "Total Categories"
+        },
+        {
+          to: { name: "tag" },
+          img: "/vendor/blogg/images/tag.jpeg",
+          title: "Total Tags"
+        }
+      ]
+    };
+  }
 };
 </script>
 

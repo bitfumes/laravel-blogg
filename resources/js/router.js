@@ -11,33 +11,39 @@ const routes = [{
     {
         path: '/blog/dashboard',
         component: require('./components/dashboard/Index'),
-        name: 'dashboard'
+        name: 'dashboard',
+        beforeEnter: (to, from, next) => isAdmin(next)
     },
 
     {
         path: '/blog/dashboard/blog/create',
         component: require('./components/dashboard/blog/Create'),
-        name: 'blog.create'
+        name: 'blog.create',
+        beforeEnter: (to, from, next) => isAdmin(next)
     },
     {
         path: '/blog/dashboard/blog/:slug/edit/',
         component: require('./components/dashboard/blog/Edit'),
-        name: 'blog.edit'
+        name: 'blog.edit',
+        beforeEnter: (to, from, next) => isAdmin(next)
     },
     {
         path: '/blog/dashboard/blog',
         component: require('./components/dashboard/blog/Index'),
-        name: 'blog.index'
+        name: 'blog.index',
+        beforeEnter: (to, from, next) => isAdmin(next)
     },
     {
         path: '/blog/dashboard/tags',
         component: require('./components/dashboard/Tag'),
-        name: 'tag'
+        name: 'tag',
+        beforeEnter: (to, from, next) => isAdmin(next)
     },
     {
         path: '/blog/dashboard/categories',
         component: require('./components/dashboard/Category'),
-        name: 'category'
+        name: 'category',
+        beforeEnter: (to, from, next) => isAdmin(next)
     },
     {
         path: '/blog/:category/:slug',
@@ -50,6 +56,12 @@ const routes = [{
             }]
         }
     },
+    {
+        path: '*',
+        redirect: {
+            name: 'front.blog.index'
+        }
+    }
 ]
 
 const router = new VueRouter({
@@ -58,6 +70,8 @@ const router = new VueRouter({
     mode: 'history'
 })
 
+// redirect if authenticated user is not admin
+let isAdmin = (next) => auth.user.isAdmin ? next() : next('/blog')
 
 // This callback runs before every route change, including on page load.
 router.beforeEach((to, from, next) => {

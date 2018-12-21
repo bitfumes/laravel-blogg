@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     toggle() {
-      if (window.App.signedIn) {
+      if (auth.signedIn) {
         this.isFavorited ? this.destroy() : this.create();
       }
     },

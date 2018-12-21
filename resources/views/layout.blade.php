@@ -8,13 +8,13 @@
     
     <link rel="shortcut icon" href="{{ asset('/vendor/bitfumes/blog/favicon.ico') }}">
 
-    <title>Bitfumes</title>
+    <title>{{ config('app.name') }}</title>
 
     <!-- Style sheets-->
     <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
     <link href="{{ asset(mix($cssFile, 'vendor/blogg')) }}" rel="stylesheet" type="text/css">
-    {{-- <script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> --}}
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </head>
 <body>
 

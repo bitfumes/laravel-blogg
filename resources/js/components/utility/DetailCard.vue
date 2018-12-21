@@ -1,6 +1,6 @@
 <template>
   <router-link :to="to">
-    <v-card :class="margin">
+    <v-card :class="margin" :hover="hover">
       <v-img class="white--text" :height="img_height" :src="img">
         <v-flex xs12 align-end flexbox v-if="chip">
           <v-chip label small color="blue" text-color="white">{{ chip }}</v-chip>
@@ -29,7 +29,8 @@ export default {
     img: { default: "" },
     img_height: { default: "200px" },
     chip: { default: "", type: String },
-    margin: { default: "" }
+    margin: { default: "" },
+    hover: { default: false }
   }
 };
 </script>

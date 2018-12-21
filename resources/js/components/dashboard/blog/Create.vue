@@ -83,7 +83,8 @@ export default {
         tag_ids: [1, 2],
         category_id: 1,
         image: null,
-        published: true
+        published: true,
+        user_id: auth.user.id
       },
       categories: [],
       tags: [],

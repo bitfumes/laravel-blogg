@@ -6,6 +6,7 @@
         <v-layout row wrap>
           <v-flex xs12 sm4 v-for="item in items" :key="item.slug">
             <detail-card
+              :hover="true"
               margin="ml-4 mt-4"
               :to="{name:'front.blog.show',params:{slug:item.slug,category:item.category.slug}}"
               :img="item.thumb_path"
@@ -40,7 +41,9 @@ export default {
       .then(res => {
         this.items = res.data.data;
       })
-      .catch(err => {});
+      .catch(err => {
+        this.$route.push({ name: "front.blog.index" });
+      });
   }
 };
 </script>

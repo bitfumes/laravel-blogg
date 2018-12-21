@@ -53,16 +53,9 @@ export default {
       .then(res => {
         next(vm => (vm.item = res.data.data));
       })
-      .catch(err => {});
-  },
-  mounted() {
-    // let params = this.$route.params;
-    // axios
-    //   .post(`/api/blog/${params.category}/${params.slug}`)
-    //   .then(res => {
-    //     this.item = res.data.data;
-    //   })
-    //   .catch(err => {});
+      .catch(err => {
+        next(vm => vm.$router.push({ name: "front.blog.index" }));
+      });
   }
 };
 </script>

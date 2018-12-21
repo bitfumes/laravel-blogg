@@ -2483,31 +2483,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: { DetailCard: __WEBPACK_IMPORTED_MODULE_0__utility_DetailCard___default.a }
+  components: { DetailCard: __WEBPACK_IMPORTED_MODULE_0__utility_DetailCard___default.a },
+  data: function data() {
+    return {
+      items: [{
+        to: { name: "blog.index" },
+        img: "/vendor/blogg/images/blog.jpeg",
+        title: "Total Blogs"
+      }, {
+        to: { name: "category" },
+        img: "/vendor/blogg/images/category.jpeg",
+        title: "Total Categories"
+      }, {
+        to: { name: "tag" },
+        img: "/vendor/blogg/images/tag.jpeg",
+        title: "Total Tags"
+      }]
+    };
+  }
 });
 
 /***/ }),
@@ -2818,7 +2814,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         tag_ids: [1, 2],
         category_id: 1,
         image: null,
-        published: true
+        published: true,
+        user_id: auth.user.id
       },
       categories: [],
       tags: [],
@@ -2968,7 +2965,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         category_id: null,
         image: null,
         published: false,
-        id: null
+        id: null,
+        user_id: auth.user.id
       },
       categories: [],
       tags: [],
@@ -3193,6 +3191,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -3209,7 +3208,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     axios.post("/api/blog").then(function (res) {
       _this.items = res.data.data;
-    }).catch(function (err) {});
+    }).catch(function (err) {
+      _this.$route.push({ name: "front.blog.index" });
+    });
   }
 });
 
@@ -3340,16 +3341,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       next(function (vm) {
         return vm.item = res.data.data;
       });
-    }).catch(function (err) {});
-  },
-  mounted: function mounted() {
-    // let params = this.$route.params;
-    // axios
-    //   .post(`/api/blog/${params.category}/${params.slug}`)
-    //   .then(res => {
-    //     this.item = res.data.data;
-    //   })
-    //   .catch(err => {});
+    }).catch(function (err) {
+      next(function (vm) {
+        return vm.$router.push({ name: "front.blog.index" });
+      });
+    });
   }
 });
 
@@ -3391,7 +3387,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     img: { default: "" },
     img_height: { default: "200px" },
     chip: { default: "", type: String },
-    margin: { default: "" }
+    margin: { default: "" },
+    hover: { default: false }
   }
 });
 
@@ -3465,7 +3462,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   methods: {
     toggle: function toggle() {
-      if (window.App.signedIn) {
+      if (auth.signedIn) {
         this.isFavorited ? this.destroy() : this.create();
       }
     },
@@ -21642,7 +21639,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -21657,7 +21654,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -21702,7 +21699,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -65032,7 +65029,7 @@ var render = function() {
     [
       _c(
         "v-card",
-        { class: _vm.margin },
+        { class: _vm.margin, attrs: { hover: _vm.hover } },
         [
           _c(
             "v-img",
@@ -65362,6 +65359,7 @@ var render = function() {
                         "detail-card",
                         {
                           attrs: {
+                            hover: true,
                             margin: "ml-4 mt-4",
                             to: {
                               name: "front.blog.show",
@@ -65718,55 +65716,27 @@ var render = function() {
         _c(
           "v-layout",
           { attrs: { "justify-center": "" } },
-          [
-            _c(
+          _vm._l(_vm.items, function(item) {
+            return _c(
               "v-flex",
-              { attrs: { xs12: "", md4: "" } },
+              {
+                key: item.title,
+                staticClass: "ml-2",
+                attrs: { xs12: "", md4: "" }
+              },
               [
                 _c("detail-card", {
                   attrs: {
-                    title: "Total Blogs",
-                    to: { name: "blog.index" },
+                    title: item.title,
+                    to: item.to,
                     btnName: "Explore",
-                    img: "/vendor/blogg/images/blog.jpeg"
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-flex",
-              { staticClass: "ml-2", attrs: { xs12: "", md4: "" } },
-              [
-                _c("detail-card", {
-                  attrs: {
-                    title: "Total Categories",
-                    to: { name: "category" },
-                    btnName: "Explore",
-                    img: "/vendor/blogg/images/category.jpeg"
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-flex",
-              { staticClass: "ml-2", attrs: { xs12: "", md4: "" } },
-              [
-                _c("detail-card", {
-                  attrs: {
-                    title: "Total Tags",
-                    to: { name: "tag" },
-                    btnName: "Explore",
-                    img: "/vendor/blogg/images/tag.jpeg"
+                    img: item.img
                   }
                 })
               ],
               1
             )
-          ],
+          }),
           1
         )
       ],
@@ -103234,9 +103204,13 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 var access_token = localStorage.getItem('token');
 window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
 
-window.App = {
+window.auth = {
     // write logic for authentication. If user is loggd in or not
-    signedIn: true
+    signedIn: true,
+    user: {
+        isAdmin: true,
+        id: 4
+    }
 };
 
 /***/ }),
@@ -104606,27 +104580,45 @@ var routes = [{
 }, {
     path: '/blog/dashboard',
     component: __webpack_require__("./resources/js/components/dashboard/Index.vue"),
-    name: 'dashboard'
+    name: 'dashboard',
+    beforeEnter: function beforeEnter(to, from, next) {
+        return isAdmin(next);
+    }
 }, {
     path: '/blog/dashboard/blog/create',
     component: __webpack_require__("./resources/js/components/dashboard/blog/Create.vue"),
-    name: 'blog.create'
+    name: 'blog.create',
+    beforeEnter: function beforeEnter(to, from, next) {
+        return isAdmin(next);
+    }
 }, {
     path: '/blog/dashboard/blog/:slug/edit/',
     component: __webpack_require__("./resources/js/components/dashboard/blog/Edit.vue"),
-    name: 'blog.edit'
+    name: 'blog.edit',
+    beforeEnter: function beforeEnter(to, from, next) {
+        return isAdmin(next);
+    }
 }, {
     path: '/blog/dashboard/blog',
     component: __webpack_require__("./resources/js/components/dashboard/blog/Index.vue"),
-    name: 'blog.index'
+    name: 'blog.index',
+    beforeEnter: function beforeEnter(to, from, next) {
+        return isAdmin(next);
+    }
 }, {
     path: '/blog/dashboard/tags',
     component: __webpack_require__("./resources/js/components/dashboard/Tag.vue"),
-    name: 'tag'
+    name: 'tag',
+    beforeEnter: function beforeEnter(to, from, next) {
+        return isAdmin(next);
+    }
 }, {
     path: '/blog/dashboard/categories',
     component: __webpack_require__("./resources/js/components/dashboard/Category.vue"),
-    name: 'category'
+    name: 'category',
+    beforeEnter: function beforeEnter(to, from, next) {
+        return isAdmin(next);
+    }
 }, {
     path: '/blog/:category/:slug',
     component: __webpack_require__("./resources/js/components/frontend/Show.vue"),
@@ -104637,6 +104629,11 @@ var routes = [{
             content: 'The home page of our example app.'
         }]
     }
+}, {
+    path: '*',
+    redirect: {
+        name: 'front.blog.index'
+    }
 }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
@@ -104644,6 +104641,11 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
     hashbang: false,
     mode: 'history'
 });
+
+// redirect if authenticated user is not admin
+var isAdmin = function isAdmin(next) {
+    return auth.user.isAdmin ? next() : next('/blog');
+};
 
 // This callback runs before every route change, including on page load.
 router.beforeEach(function (to, from, next) {
