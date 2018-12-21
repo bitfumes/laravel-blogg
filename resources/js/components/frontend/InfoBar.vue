@@ -1,13 +1,13 @@
 <template>
   <v-card>
-    <v-card-title>
+    <v-card-title v-if="user">
       <v-avatar class="grey lighten-4" :tile="false" size="70px">
-        <img src alt="avatar">
+        <img :src="user.avatar" alt="Avatar">
       </v-avatar>
-      <div>
+      <div class="ml-3">
         Posted by
         <a class="teal--text" href="#">
-          <span>Sarthak</span>
+          <span>{{ user.name }}</span>
         </a>
         <br>
         <span>{{ published_at }}</span>
@@ -23,7 +23,7 @@
 
       <favorite v-if="slug" :isLiked="isLiked" :count="favoriteCounts" :slug="slug" favType="Blog"></favorite>
 
-      <shares></shares>
+      <shares :title="title"></shares>
     </v-card-title>
   </v-card>
 </template>
@@ -38,7 +38,10 @@ export default {
     published_at: { type: String },
     favoriteCounts: { default: 0, type: Number },
     slug: { default: null },
-    isLiked: { default: false }
+    isLiked: { default: false },
+    title: { default: null },
+    user: { default: null },
+    avatar: { default: null }
   }
 };
 </script>

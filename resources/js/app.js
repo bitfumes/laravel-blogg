@@ -12,6 +12,9 @@ import VueSimplemde from 'vue-simplemde'
 import 'simplemde/dist/simplemde.min.css'
 Vue.use(VueSimplemde)
 
+// Syntax highlighting
+require('./highlightJs')
+// import hljs from './highlightJs';
 
 window.Event = new Vue();
 window.flash = function (message, color = 'success') {
@@ -32,5 +35,5 @@ Vue.component('flash', require('./components/utility/Flash.vue'));
 import router from './router.js'
 const app = new Vue({
     el: '#blogg',
-    router
+    router,
 });

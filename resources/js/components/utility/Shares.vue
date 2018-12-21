@@ -6,7 +6,7 @@
     <v-list>
       <v-list-tile>
         <v-btn
-          :href="`http://www.facebook.com/sharer/sharer.php?u=${path}`"
+          :href="`http://www.facebook.com/sharer/sharer.php?u=${path}&title=${title}`"
           target="_blank"
           fab
           small
@@ -36,7 +36,7 @@
 
 <script>
 export default {
-  //   props: ["path"],
+  props: ["title"],
   computed: {
     path() {
       return window.location.href;

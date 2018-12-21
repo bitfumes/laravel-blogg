@@ -19,6 +19,8 @@
               :favoriteCounts="item.likeCounts"
               :slug="item.slug"
               :isLiked="item.isLiked"
+              :title="item.title"
+              :user="item.user"
             ></info-bar>
 
             <!-- Body Section -->
@@ -37,6 +39,7 @@ import Header from "../Header";
 import InfoBar from "./InfoBar";
 import BlogBody from "./Body";
 import Disqus from "../utility/Disqus";
+
 export default {
   components: { Header, InfoBar, Disqus, BlogBody },
   data() {
@@ -44,14 +47,22 @@ export default {
       item: []
     };
   },
-  mounted() {
-    let params = this.$route.params;
+  beforeRouteEnter(to, from, next) {
     axios
-      .post(`/api/blog/${params.category}/${params.slug}`)
+      .post(`/api/blog/${to.params.category}/${to.params.slug}`)
       .then(res => {
-        this.item = res.data.data;
+        next(vm => (vm.item = res.data.data));
       })
       .catch(err => {});
+  },
+  mounted() {
+    // let params = this.$route.params;
+    // axios
+    //   .post(`/api/blog/${params.category}/${params.slug}`)
+    //   .then(res => {
+    //     this.item = res.data.data;
+    //   })
+    //   .catch(err => {});
   }
 };
 </script>

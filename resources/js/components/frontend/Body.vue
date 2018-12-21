@@ -1,6 +1,6 @@
 <template>
   <v-card class="mt-2">
-    <v-card-text class="subheading" v-html="content"></v-card-text>
+    <v-card-text v-highlightjs class="body subheading" v-html="content"></v-card-text>
   </v-card>
 </template>
 
@@ -11,4 +11,7 @@ export default {
 </script>
 
 <style>
+.body {
+  padding: 3em;
+}
 </style>

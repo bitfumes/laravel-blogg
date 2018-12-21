@@ -11,6 +11,11 @@ class BlogTest extends TestCase
 {
     use DatabaseMigrations;
 
+    public function setup()
+    {
+        parent::setUp();
+    }
+
     /** @test */
     public function a_blog_has_one_user_who_has_created_it()
     {

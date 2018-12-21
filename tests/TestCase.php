@@ -17,6 +17,7 @@ class TestCase extends BaseTestCase
         $this->artisan('migrate', ['--database' => 'testing']);
         $this->loadMigrations();
         $this->loadFactories();
+        app()['config']->set('blogg.models.user', User::class);
     }
 
     protected function loadFactories()

@@ -25,6 +25,7 @@ class BlogResource extends JsonResource
             'slug'                 => $this->slug,
             'category'             => new CategoryResource($this->category),
             'tags'                 => new TagCollection($this->tags),
+            'user'                 => new UserResource($this->user),
             'likeCounts'           => $this->countLikes(),
             'isLiked'              => !!$this->isLiked(),
             'image_path'           => $this->image_path,

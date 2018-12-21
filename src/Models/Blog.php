@@ -2,7 +2,6 @@
 
 namespace Bitfumes\Blogg\Models;
 
-use Bitfumes\Blogg\Tests\User;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -90,7 +89,7 @@ class Blog extends Model implements HasMedia, Likeable
      */
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(config('blogg.models.category'));
     }
 
     /**
@@ -98,7 +97,7 @@ class Blog extends Model implements HasMedia, Likeable
      */
     public function tags()
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->morphToMany(config('blogg.models.tag'), 'taggable');
     }
 
     /**
@@ -106,7 +105,7 @@ class Blog extends Model implements HasMedia, Likeable
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(config('blogg.models.user'));
     }
 
     /**
