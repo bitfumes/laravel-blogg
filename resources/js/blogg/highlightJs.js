@@ -19,12 +19,6 @@ hljs.registerLanguage('css', css);
 // import 'highlight.js/styles/nord.css'
 import 'highlight.js/styles/tomorrow-night-bright.css'
 
-// $(document).ready(function () {
-//     $('pre code').each(function (i, block) {
-//         hljs.highlightBlock(block);
-//     });
-// });
-
 Vue.directive('highlightjs', {
     deep: true,
     bind: function (el, binding) {
