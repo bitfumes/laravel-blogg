@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import Header from "../Header";
-import DetailCard from "../utility/DetailCard";
+import Header from "../../components/Header";
+import DetailCard from "../../components/utility/DetailCard";
 
 export default {
   components: { Header, DetailCard },
@@ -37,12 +37,12 @@ export default {
   },
   mounted() {
     axios
-      .post("/api/blog")
+      .post(`${api}/api/blog`)
       .then(res => {
         this.items = res.data.data;
       })
       .catch(err => {
-        this.$route.push({ name: "front.blog.index" });
+        this.$router.push({ name: "blog.index" });
       });
   }
 };

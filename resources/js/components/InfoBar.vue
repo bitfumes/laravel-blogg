@@ -30,8 +30,8 @@
 
 
 <script>
-import Favorite from "../utility/Favorite";
-import Shares from "../utility/Shares";
+import Favorite from "./utility/Favorite";
+import Shares from "./utility/Shares";
 export default {
   components: { Favorite, Shares },
   props: {

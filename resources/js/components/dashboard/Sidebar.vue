@@ -27,9 +27,9 @@ export default {
     drawer: null,
     links: [
       { name: "Dashboard", to: "dashboard" },
-      { name: "Blogs", to: "blog.index" },
-      { name: "Categories", to: "category" },
-      { name: "Tags", to: "tag" }
+      { name: "Blogs", to: "dashboard.blog.index" },
+      { name: "Categories", to: "dashboard.category" },
+      { name: "Tags", to: "dashboard.tag" }
     ]
   }),
   created() {

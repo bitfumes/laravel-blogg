@@ -5,7 +5,7 @@
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat>
-        <router-link :to="{name:'front.blog.index'}">Blog</router-link>
+        <router-link :to="{name:'blog.index'}">Blog</router-link>
       </v-btn>
       <v-btn flat>
         <router-link :to="{name:'dashboard'}">Dashboard</router-link>

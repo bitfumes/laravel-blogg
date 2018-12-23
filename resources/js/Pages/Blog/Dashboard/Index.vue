@@ -13,24 +13,24 @@
 </template>
 
 <script>
-import DetailCard from "../utility/DetailCard";
+import DetailCard from "../../../components/utility/DetailCard";
 export default {
   components: { DetailCard },
   data() {
     return {
       items: [
         {
-          to: { name: "blog.index" },
+          to: { name: "dashboard.blog.index" },
           img: "/vendor/blogg/images/blog.jpeg",
           title: "Total Blogs"
         },
         {
-          to: { name: "category" },
+          to: { name: "dashboard.category" },
           img: "/vendor/blogg/images/category.jpeg",
           title: "Total Categories"
         },
         {
-          to: { name: "tag" },
+          to: { name: "dashboard.tag" },
           img: "/vendor/blogg/images/tag.jpeg",
           title: "Total Tags"
         }

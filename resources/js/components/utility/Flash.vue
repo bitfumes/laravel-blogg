@@ -37,6 +37,12 @@ export default {
     }
   }
 };
+window.flash = function(message, color = "success") {
+  Event.$emit("flash", {
+    message,
+    color
+  });
+};
 </script>
 <style>
 .alert-flash {

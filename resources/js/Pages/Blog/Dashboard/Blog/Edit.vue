@@ -71,9 +71,9 @@
 </template>
 
 <script>
-import markdown from "../../../simplemde-configs";
-import FeaturedImage from "../ImageUpload/Image";
-import PostEdit from "../ImageUpload/PostEdit";
+import markdown from "../../../../resources/simplemde-configs";
+import FeaturedImage from "../../../../components/ImageUpload/Image";
+import PostEdit from "../../../../components/ImageUpload/PostEdit";
 
 export default {
   data() {

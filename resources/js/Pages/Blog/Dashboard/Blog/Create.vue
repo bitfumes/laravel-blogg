@@ -71,8 +71,8 @@
 </template>
 
 <script>
-import markdown from "../../../simplemde-configs";
-import FeaturedImage from "../ImageUpload/Image";
+import markdown from "../../../../resources/simplemde-configs";
+import FeaturedImage from "../../../../components/ImageUpload/Image";
 
 export default {
   data() {

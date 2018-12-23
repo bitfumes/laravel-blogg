@@ -1,8 +1,17 @@
+try {
+    window.$ = window.jQuery = require('jquery');
+} catch (e) {}
+
+window.api = 'http://blogg.test'
+// Require Axios
+require('./resources/axios')
+
 // Authentication
-require('./blogg/auth')
+require('./resources/auth')
 
 // Syntax highlighting
-require('./blogg/highlightJs')
+require('./resources/highlightJs')
+
 
 // Import global vue
 import Vue from 'vue'
@@ -17,7 +26,7 @@ import 'simplemde/dist/simplemde.min.css'
 Vue.use(VueSimplemde)
 
 // Some global components
-Vue.component('Header', require('./blogg/components/Header.vue'));
-Vue.component('Dashboard', require('./blogg/components/dashboard/Dashboard'))
-Vue.component('DetailCard', require('./blogg/components/utility/DetailCard'))
-Vue.component('flash', require('./blogg/components/utility/Flash.vue'));
+Vue.component('Header', require('./components/Header.vue'));
+Vue.component('Dashboard', require('./components/dashboard/Dashboard'))
+Vue.component('DetailCard', require('./components/utility/DetailCard'))
+Vue.component('flash', require('./components/utility/Flash.vue'));

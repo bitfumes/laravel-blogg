@@ -1,7 +1,7 @@
 <template>
   <router-link :to="to">
     <v-card :class="margin" :hover="hover">
-      <v-img class="white--text" :height="img_height" :src="img">
+      <v-card-media class="white--text" :height="img_height" :src="img">
         <v-flex xs12 align-end flexbox v-if="chip">
           <v-chip label small color="blue" text-color="white">{{ chip }}</v-chip>
         </v-flex>
@@ -12,7 +12,7 @@
             </v-flex>
           </v-layout>
         </v-container>
-      </v-img>
+      </v-card-media>
       <v-card-text>
         <slot name="text"></slot>
       </v-card-text>
