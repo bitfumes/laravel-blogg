@@ -15,6 +15,9 @@ class BlogResource extends JsonResource
      */
     public function toArray($request)
     {
+        $userResource       = config('blogg.resource.user');
+        $tagCollection      = config('blogg.resource.tagCollection');
+        $categoryResource   = config('blogg.resource.category');
         return [
             $this->mergeWhen(request('editing'), ['id'  => $this->id]),
             'title'                => $this->title,
@@ -23,9 +26,9 @@ class BlogResource extends JsonResource
 
             'path'                 => $this->path(),
             'slug'                 => $this->slug,
-            'category'             => new CategoryResource($this->category),
-            'tags'                 => new TagCollection($this->tags),
-            'user'                 => new UserResource($this->user),
+            'category'             => new $categoryResource($this->category),
+            'tags'                 => new $tagCollection($this->tags),
+            'user'                 => new $userResource($this->user),
             'likeCounts'           => $this->countLikes(),
             'isLiked'              => !!$this->isLiked(),
             'image_path'           => $this->image_path,

@@ -4,16 +4,19 @@ namespace Bitfumes\Blogg\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Bitfumes\Blogg\Models\Tag;
-use Bitfumes\Blogg\Http\Resources\TagCollection;
-use Bitfumes\Blogg\Http\Resources\TagResource;
 use Bitfumes\Blogg\Http\Requests\TagRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 class TagController extends Controller
 {
+    private $tagCollection;
+    private $tagResource;
+
     public function __construct()
     {
-        // $this->middleware('auth')->except('index', 'show');
+        $this->tagCollection = config('blogg.resource.tagCollection');
+        $this->tagResource   = config('blogg.resource.tag');
+        $this->middleware('auth')->except('index', 'show');
     }
 
     /**
@@ -24,7 +27,7 @@ class TagController extends Controller
     public function index()
     {
         $categories = Tag::all();
-        return new TagCollection($categories);
+        return new $this->tagCollection($categories);
     }
 
     /**
@@ -57,7 +60,7 @@ class TagController extends Controller
      */
     public function show(Tag $Tag)
     {
-        return new TagResource($Tag);
+        return new $this->tagResource($Tag);
     }
 
     /**

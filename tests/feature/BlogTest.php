@@ -40,7 +40,7 @@ class BlogTest extends TestCase
     public function api_can_give_single_blog_details()
     {
         $blog = $this->createPublishedBlog();
-        $this->post($blog->path())
+        $res  = $this->post($blog->path())
         ->assertOk()
         ->assertJsonStructure([
             'data' => ['title', 'path', 'body', 'image_path', 'thumb_path', 'published_at']

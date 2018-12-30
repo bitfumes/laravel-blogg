@@ -14,7 +14,8 @@ class CategoryCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        $collection = CategoryResource::collection($this->collection);
+        $categoryResource = config('blogg.resource.category');
+        $collection       = $categoryResource::collection($this->collection);
         return [
             'data' => $collection
         ];

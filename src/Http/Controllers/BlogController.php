@@ -13,8 +13,13 @@ use Bitfumes\Blogg\Models\Category;
 
 class BlogController extends Controller
 {
+    private $blogCollection;
+    private $blogResource;
+
     public function __construct()
     {
+        $this->blogCollection =  config('blogg.resource.blogCollection');
+        $this->blogResource   =  config('blogg.resource.blog');
         $this->middleware('auth')->except('index', 'show');
     }
 
@@ -27,7 +32,7 @@ class BlogController extends Controller
     {
         $paginate = app()['config']['blogg.paginate'];
         $blogs    = Blog::published()->paginate($paginate);
-        return new BlogCollection($blogs);
+        return new $this->blogCollection($blogs);
     }
 
     /**
@@ -38,7 +43,7 @@ class BlogController extends Controller
     public function all()
     {
         $blogs    = Blog::latest()->get();
-        return new BlogCollection($blogs);
+        return new $this->blogCollection($blogs);
     }
 
     /**
@@ -63,7 +68,7 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        return new BlogResource($blog);
+        return new $this->blogResource($blog);
     }
 
     /**
@@ -74,7 +79,7 @@ class BlogController extends Controller
      */
     public function show(Category $category, Blog $blog)
     {
-        return new BlogResource($blog);
+        return new $this->blogResource($blog);
     }
 
     /**

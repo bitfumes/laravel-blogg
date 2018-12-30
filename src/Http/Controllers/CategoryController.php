@@ -5,16 +5,19 @@ namespace Bitfumes\Blogg\Http\Controllers;
 use Illuminate\Http\Request;
 use Bitfumes\Blogg\Models\Category;
 use Illuminate\Routing\Controller;
-use Bitfumes\Blogg\Http\Resources\CategoryCollection;
 use Bitfumes\Blogg\Http\Requests\CategoryRequest;
 use Illuminate\Http\Response;
-use Bitfumes\Blogg\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
+    private $categoryCollection;
+    private $categoryResource;
+
     public function __construct()
     {
-        // $this->middleware('auth')->except('index', 'show');
+        $this->categoryCollection = config('blogg.resource.categoryCollection');
+        $this->categoryResource   = config('blogg.resource.category');
+        $this->middleware('auth')->except('index', 'show');
     }
 
     /**
@@ -25,7 +28,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return new CategoryCollection($categories);
+        return new $this->categoryCollection($categories);
     }
 
     /**
@@ -58,7 +61,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return new CategoryResource($category);
+        return new $this->categoryResource($category);
     }
 
     /**
@@ -100,6 +103,6 @@ class CategoryController extends Controller
     public function search($query)
     {
         $result = Category::where('name', 'like', "%$query%")->get();
-        return new CategoryCollection($result);
+        return new $this->categoryCollection($result);
     }
 }
