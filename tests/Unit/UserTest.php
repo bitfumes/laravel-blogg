@@ -13,7 +13,7 @@ class UserTest extends TestCase
     /** @test */
     public function a_user_ca_have_many_traits()
     {
-        $user = factory(User::class)->create();
+        $user  = factory(User::class)->create();
         $blogs = $this->createBlog(10, ['user_id'=>$user->id]);
         $this->assertEquals($user->blogs->count(), 10);
     }

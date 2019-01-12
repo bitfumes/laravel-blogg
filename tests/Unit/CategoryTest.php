@@ -1,6 +1,6 @@
 <?php
 
-namespace Bitfumes\Blog\Tests\Unit;
+namespace Bitfumes\Blogg\Tests\Unit;
 
 use Bitfumes\Blogg\Tests\TestCase;
 

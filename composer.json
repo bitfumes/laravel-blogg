@@ -10,7 +10,7 @@
     "minimum-stability": "dev",
     "require": {
         "spatie/laravel-medialibrary": "^7.0.0",
-        "bitfumes/laravel-likker": "dev-master",
+        "bitfumes/laravel-likker": "^1.0",
         "graham-campbell/markdown": "^10.2@dev"
     },
     "require-dev": {
