@@ -23,5 +23,3 @@ Route::group(['prefix' => 'api'], function () {
     Route::post('{blog}/like', 'LikeController@likeIt')->name('blog.like');
     Route::delete('{blog}/like', 'LikeController@unLikeIt')->name('blog.unlike');
 });
-
-Route::get('/{view?}', 'HomeController@index')->where('view', '(.*)')->name('blogg');

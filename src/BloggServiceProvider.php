@@ -10,12 +10,11 @@ class BloggServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->registerRoutes();
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
         $this->mergeConfigFrom(__DIR__ . '/../config/blogg.php', 'blogg');
+        $this->registerRoutes();
+        $this->blogViews();
         $this->publisheThings();
-
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'blogg');
     }
 
     public function register()
@@ -54,9 +53,6 @@ class BloggServiceProvider extends ServiceProvider
             __DIR__ . '/database/migrations/' => database_path('migrations'),
         ], 'blogg:migrations');
         $this->publishes([
-            __DIR__ . '/views' => resource_path('views/vendor/blogg'),
-        ], 'blogg:views');
-        $this->publishes([
             __DIR__ . '/database/factories' => database_path('factories'),
         ], 'blogg:factories');
         $this->publishes([
@@ -65,5 +61,21 @@ class BloggServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/routes/routes.php' => base_path('routes/Blog.php'),
         ], 'blogg:routes');
+    }
+
+    public function blogViews()
+    {
+        if (config('blogg.include_views')) {
+            // Frontend
+            $this->loadViewsFrom(__DIR__ . '/../resources/views', 'blogg');
+            // Publishing assets
+            $this->publishes([
+                __DIR__ . '/views' => resource_path('views/vendor/blogg'),
+            ], 'blogg:views');
+            // Routes
+            Route::group($this->routeConfiguration(), function () {
+                Route::get('/{view?}', 'HomeController@index')->where('view', '(.*)')->name('blogg');
+            });
+        }
     }
 }

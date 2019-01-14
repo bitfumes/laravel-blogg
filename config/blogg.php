@@ -1,8 +1,9 @@
 <?php
 
 return [
-    'paginate' => 15,
-    'thumb'    => [
+    'paginate'      => 15,
+    'include_views' => false,
+    'thumb'         => [
         'width'   => 368,
         'height'  => 232,
         'sharpen' => 10
