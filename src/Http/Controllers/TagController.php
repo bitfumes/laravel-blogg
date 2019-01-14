@@ -16,7 +16,7 @@ class TagController extends Controller
     {
         $this->tagCollection = config('blogg.resource.tagCollection');
         $this->tagResource   = config('blogg.resource.tag');
-        $this->middleware('auth')->except('index', 'show');
+        $this->middleware(config('blogg.middleware'))->except('index', 'show');
     }
 
     /**

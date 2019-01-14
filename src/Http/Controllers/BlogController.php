@@ -20,7 +20,7 @@ class BlogController extends Controller
     {
         $this->blogCollection =  config('blogg.resource.blogCollection');
         $this->blogResource   =  config('blogg.resource.blog');
-        $this->middleware('auth')->except('index', 'show');
+        $this->middleware(config('blogg.middleware'))->except('index', 'show');
     }
 
     /**

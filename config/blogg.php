@@ -3,6 +3,7 @@
 return [
     'paginate'      => 15,
     'include_views' => false,
+    'middleware'    => 'auth',
     'thumb'         => [
         'width'   => 368,
         'height'  => 232,

@@ -17,7 +17,7 @@ class CategoryController extends Controller
     {
         $this->categoryCollection = config('blogg.resource.categoryCollection');
         $this->categoryResource   = config('blogg.resource.category');
-        $this->middleware('auth')->except('index', 'show');
+        $this->middleware(config('blogg.middleware'))->except('index', 'show');
     }
 
     /**
