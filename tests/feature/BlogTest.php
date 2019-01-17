@@ -22,6 +22,7 @@ class BlogTest extends TestCase
     public function api_give_all_blog()
     {
         $blog = new BlogCollection($this->createPublishedBlog(3));
+        // dd($blog->resolve());
         $res  = $this->post(route('blog.index'))
         ->assertOk()
         ->assertJsonStructure(['data', 'meta', 'links']);

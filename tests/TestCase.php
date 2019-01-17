@@ -28,6 +28,7 @@ class TestCase extends BaseTestCase
 
     protected function loadMigrations()
     {
+        $this->loadMigrationsFrom(__DIR__ . '/../src/database/migrations');
         $this->loadLaravelMigrations(['--database' => 'testing']); // package migrations
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations'); // test migrations
     }
