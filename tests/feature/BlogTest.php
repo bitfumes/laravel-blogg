@@ -38,6 +38,29 @@ class BlogTest extends TestCase
     }
 
     /** @test */
+    public function api_can_fetch_blog_by_category()
+    {
+        $category = $this->createCategory();
+        $this->createBlog(2, ['published'=>true, 'category_id' => $category->id]);
+        $this->createBlog(2, ['published'=>true]);
+        $res = $this->postJson(route('blog.show.bycategory', $category->slug))->assertOk();
+        $res->assertJsonStructure(['data', 'meta', 'links']);
+        $this->assertEquals(2, $res->json()['meta']['total']);
+    }
+
+    /** @test */
+    public function api_can_fetch_blog_by_tag()
+    {
+        $tag         = $this->createTag();
+        $blogWithTag = $this->createPublishedBlog();
+        $blogWithTag->tags()->sync($tag);
+        $this->createPublishedBlog();
+        $res = $this->postJson(route('blog.show.bytag', $tag->name))->assertOk();
+        $res->assertJsonStructure(['data', 'meta', 'links']);
+        $this->assertEquals(1, $res->json()['meta']['total']);
+    }
+
+    /** @test */
     public function api_can_give_single_blog_details()
     {
         $blog = $this->createPublishedBlog();

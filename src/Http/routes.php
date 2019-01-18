@@ -11,10 +11,11 @@ Route::group(['prefix' => 'api'], function () {
         // Backend
         Route::post('/all', 'BlogController@all')->name('blog.all');
         Route::post('/store', 'BlogController@store')->name('blog.store');
+        Route::post('/{category}', 'BlogController@byCategory')->name('blog.show.bycategory');
+        Route::post('/tag/{tag}', 'BlogController@byTag')->name('blog.show.bytag');
         Route::delete('/{category}/{blog}', 'BlogController@destroy')->name('blog.destroy');
         // frontend
         Route::post('/{category}/{blog}', 'BlogController@show')->name('blog.show');
-        Route::post('/{tag}/{blog}', 'BlogController@show')->name('blog.show');
         // Backend
         Route::post('/{blog}', 'BlogController@edit')->name('blog.edit');
         Route::put('/{blog}', 'BlogController@update')->name('blog.update');
