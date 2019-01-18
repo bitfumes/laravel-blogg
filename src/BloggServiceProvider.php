@@ -58,7 +58,7 @@ class BloggServiceProvider extends ServiceProvider
             __DIR__ . '/../config/blogg.php' => config_path('blogg.php'),
         ], 'blogg:config');
         $this->publishes([
-            __DIR__ . '/routes/routes.php' => base_path('routes/Blog.php'),
+            __DIR__ . '/Http/routes.php' => base_path('routes/Blog.php'),
         ], 'blogg:routes');
     }
 
