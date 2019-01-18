@@ -33,6 +33,20 @@ class BloggServiceProvider extends ServiceProvider
         });
     }
 
+    protected function loadRoutesFrom($path)
+    {
+        $routeDir = base_path('routes');
+        if (file_exists($routeDir)) {
+            $routeDir    = base_path('routes');
+            $appRouteDir = scandir($routeDir);
+            if (!$this->app->routesAreCached()) {
+                require in_array('Blog.php', $appRouteDir) ? base_path('routes/Blog.php') : $path;
+            }
+        } else {
+            require $path;
+        }
+    }
+
     /**
     * Get the Blogg route group configuration array.
     *
