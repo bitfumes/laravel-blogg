@@ -11,12 +11,14 @@ class TagController extends Controller
 {
     private $tagCollection;
     private $tagResource;
+    private $tag;
 
     public function __construct()
     {
         $this->tagCollection = config('blogg.resource.tagCollection');
         $this->tagResource   = config('blogg.resource.tag');
         $this->middleware(config('blogg.middleware'))->except('index', 'show');
+        $this->tag = config('blogg.models.tag');
     }
 
     /**
@@ -26,7 +28,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        $categories = Tag::all();
+        $categories = $this->tag::all();
         return new $this->tagCollection($categories);
     }
 
@@ -48,7 +50,7 @@ class TagController extends Controller
      */
     public function store(TagRequest $request)
     {
-        $Tag = Tag::store($request->all());
+        $Tag = $this->tag::store($request->all());
         return response($Tag, Response::HTTP_CREATED);
     }
 

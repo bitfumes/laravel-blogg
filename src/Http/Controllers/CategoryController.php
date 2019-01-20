@@ -12,12 +12,14 @@ class CategoryController extends Controller
 {
     private $categoryCollection;
     private $categoryResource;
+    private $category;
 
     public function __construct()
     {
         $this->categoryCollection = config('blogg.resource.categoryCollection');
         $this->categoryResource   = config('blogg.resource.category');
         $this->middleware(config('blogg.middleware'))->except('index', 'show');
+        $this->category = config('blogg.models.category');
     }
 
     /**
@@ -27,7 +29,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = $this->category::all();
         return new $this->categoryCollection($categories);
     }
 
@@ -49,7 +51,7 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $category = Category::create($request->all());
+        $category = $this->category::create($request->all());
         return response($category, Response::HTTP_CREATED);
     }
 
@@ -102,7 +104,7 @@ class CategoryController extends Controller
 
     public function search($query)
     {
-        $result = Category::where('name', 'like', "%$query%")->get();
+        $result = $this->category::where('name', 'like', "%$query%")->get();
         return new $this->categoryCollection($result);
     }
 }
