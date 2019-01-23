@@ -2,7 +2,7 @@ try {
     window.$ = window.jQuery = require('jquery');
 } catch (e) {}
 
-window.api = 'http://blogg.test'
+window.api = 'https://blogg.app'
 // Require Axios
 require('./resources/axios')
 

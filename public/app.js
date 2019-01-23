@@ -75414,7 +75414,7 @@ try {
     window.$ = window.jQuery = __webpack_require__("./node_modules/jquery/dist/jquery.js");
 } catch (e) {}
 
-window.api = 'http://blogg.test';
+window.api = 'https://blogg.app';
 // Require Axios
 __webpack_require__("./resources/js/resources/axios.js");
 

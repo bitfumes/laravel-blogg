@@ -18,7 +18,8 @@ class Blog extends Model implements HasMedia, Likeable
         $this->addMediaConversion('thumb')
             ->width(config('blogg.thumb.width'))
             ->height(config('blogg.thumb.height'))
-            ->sharpen(config('blogg.thumb.sharpen'));
+            ->sharpen(config('blogg.thumb.sharpen'))
+            ->nonQueued();
     }
 
     protected $fillable = ['title', 'slug', 'body', 'published', 'user_id', 'category_id'];
