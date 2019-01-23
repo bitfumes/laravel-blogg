@@ -33,16 +33,6 @@ class TagController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -60,20 +50,10 @@ class TagController extends Controller
      * @param  \App\Tag  $Tag
      * @return \Illuminate\Http\Response
      */
-    public function show(Tag $Tag)
+    public function show($tag)
     {
-        return new $this->tagResource($Tag);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Tag  $Tag
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Tag $Tag)
-    {
-        //
+        $tag = $this->tag::whereName($tag)->first();
+        return new $this->tagResource($tag);
     }
 
     /**
@@ -83,8 +63,10 @@ class TagController extends Controller
      * @param  \App\Tag  $Tag
      * @return \Illuminate\Http\Response
      */
-    public function update(TagRequest $request, Tag $tag)
+    public function update(TagRequest $request, $tag)
     {
+        $tag = $this->tag::whereName($tag)->first();
+
         $tag->update($request->except(['_method']));
         return response($tag, Response::HTTP_ACCEPTED);
     }
@@ -95,9 +77,10 @@ class TagController extends Controller
      * @param Tag $blog
      * @return void
      */
-    public function destroy(Tag $Tag)
+    public function destroy($tag)
     {
-        $Tag->delete();
+        $tag = $this->tag::whereName($tag)->first();
+        $tag->delete();
         return response(null, Response::HTTP_NO_CONTENT);
     }
 }

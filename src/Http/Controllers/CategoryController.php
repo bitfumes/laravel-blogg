@@ -34,16 +34,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -61,20 +51,10 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($category)
     {
+        $category = $this->category::whereSlug($category)->first();
         return new $this->categoryResource($category);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
     }
 
     /**
@@ -84,8 +64,9 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, Category $category)
+    public function update(CategoryRequest $request, $category)
     {
+        $category = $this->category::whereSlug($category)->first();
         $category->update($request->except(['_method']));
         return response($category, Response::HTTP_ACCEPTED);
     }
@@ -96,8 +77,9 @@ class CategoryController extends Controller
      * @param Category $blog
      * @return void
      */
-    public function destroy(Category $category)
+    public function destroy($category)
     {
+        $category = $this->category::whereSlug($category)->first();
         $category->delete();
         return response(null, Response::HTTP_NO_CONTENT);
     }
