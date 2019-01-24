@@ -117,7 +117,7 @@ class BlogController extends Controller
     public function byCategory(Category $category)
     {
         $paginate         = app()['config']['blogg.paginate'];
-        $blogs            = $category->blogs()->paginate($paginate);
+        $blogs            = $category->blogs()->published()->paginate($paginate);
         return new $this->blogCollection($blogs);
     }
 
@@ -130,7 +130,7 @@ class BlogController extends Controller
     public function byTag(Tag $tag)
     {
         $paginate         = app()['config']['blogg.paginate'];
-        $blogs            = $tag->blogs()->paginate($paginate);
+        $blogs            = $tag->blogs()->published()->paginate($paginate);
         return new $this->blogCollection($blogs);
     }
 }
