@@ -41,6 +41,18 @@ class TagTest extends TestCase
     }
 
     /** @test */
+    public function tag_is_deleted_on_deletion_of_blog()
+    {
+        $this->mediaLibraryConfigs();
+        $blog         = $this->createBlog();
+        $tags         = $this->createTag(2, []);
+        $blog->tags()->attach($tags);
+        $this->assertDatabaseHas('taggables', ['taggable_id'=>$blog->id]);
+        $blog->delete();
+        $this->assertDatabaseMissing('taggables', ['taggable_id'=>$blog->id]);
+    }
+
+    /** @test */
     public function tag_is_trimmed_before_saving()
     {
         Tag::store(['name'=>'  Laravel is Best ']);

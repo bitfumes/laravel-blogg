@@ -33,6 +33,10 @@ class Blog extends Model implements HasMedia, Likeable
         self::updating(function ($blog) {
             self::setSlug($blog);
         });
+
+        self::deleted(function ($blog) {
+            $blog->tags()->detach();
+        });
     }
 
     public static function store($request)

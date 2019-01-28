@@ -37,5 +37,9 @@
                 "Bitfumes\\Blogg\\BloggServiceProvider"
             ]
         }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
     }
 }
