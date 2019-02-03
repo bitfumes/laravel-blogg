@@ -56,7 +56,6 @@ class BlogController extends Controller
     public function store(BlogRequest $request)
     {
         // $blog = auth()->user()->createBlog($request);
-
         $blog = Blog::store($request);
         return response(null, Response::HTTP_CREATED);
     }

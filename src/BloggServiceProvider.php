@@ -5,6 +5,7 @@ namespace Bitfumes\Blogg;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use GrahamCampbell\Markdown\MarkdownServiceProvider;
+use Bitfumes\Blogg\Providers\EventServiceProvider;
 
 class BloggServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,7 @@ class BloggServiceProvider extends ServiceProvider
     public function register()
     {
         app()->register(MarkdownServiceProvider::class);
+        app()->register(EventServiceProvider::class);
     }
 
     /**

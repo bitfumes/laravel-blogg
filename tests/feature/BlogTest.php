@@ -6,6 +6,8 @@ use Bitfumes\Blogg\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Bitfumes\Blogg\Models\Blog;
 use Bitfumes\Blogg\Http\Resources\BlogCollection;
+use Illuminate\Support\Facades\Event;
+use Bitfumes\Blogg\Events\UploadImageEvent;
 
 class BlogTest extends TestCase
 {
@@ -102,6 +104,23 @@ class BlogTest extends TestCase
         $blog = Blog::find(1);
         // dd($blog->getMedia()[0]->getUrl('thumb'));
         $this->assertDatabaseHas('media', ['model_id'=>1]);
+    }
+
+    /** @test */
+    public function featured_image_is_uploaded_via_event()
+    {
+        $this->loggedInUser();
+
+        Event::fake();
+        $res = $this->post(route('blog.store'), [
+            'title'          => 'New Title',
+            'body'           => 'This is a body',
+            'category_id'    => $this->createCategory()->id,
+            'image'          => '$photo',
+            'tag_ids'        => $this->tagIds,
+            'slug'           => 'acb'
+        ])->assertStatus(201);
+        Event::assertDispatched(UploadImageEvent::class);
     }
 
     /** @test */

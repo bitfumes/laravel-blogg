@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
 use Bitfumes\Likker\Contracts\Likeable;
 use Bitfumes\Likker\Traits\CanBeLiked;
+use Bitfumes\Blogg\Events\UploadImageEvent;
 
 class Blog extends Model implements HasMedia, Likeable
 {
@@ -43,7 +44,7 @@ class Blog extends Model implements HasMedia, Likeable
     {
         $blog = Self::create($request->except('image', 'tag_ids'));
         $blog->tags()->sync(request('tag_ids'));
-        (new self)->saveImage($blog, request('image'));
+        (new self)->dispatchImageUpload($blog, request('image'));
         return $blog;
     }
 
@@ -51,17 +52,12 @@ class Blog extends Model implements HasMedia, Likeable
     {
         $this->update($data);
         $this->tags()->sync(request('tag_ids'));
-        $this->saveImage($this, request('image'));
+        $this->dispatchImageUpload($this, request('image'));
     }
 
-    protected function saveImage($blog, $image)
+    protected function dispatchImageUpload($blog, $image)
     {
-        $oldImage = $blog->getMedia('feature')->count() > 0 ? $blog->getMedia('feature')[0]->getUrl() : null;
-        if ($image && ($oldImage != $image)) {
-            $blog->clearMediaCollection('feature')
-                ->addMediaFromBase64($image)
-                ->toMediaCollection('feature');
-        }
+        event(new UploadImageEvent($blog, $image));
     }
 
     /**

@@ -22,5 +22,8 @@ return [
         'tagCollection'      => Bitfumes\Blogg\Http\Resources\TagCollection::class,
         'category'           => Bitfumes\Blogg\Http\Resources\CategoryResource::class,
         'categoryCollection' => Bitfumes\Blogg\Http\Resources\CategoryCollection::class
+    ],
+    'storage' => [
+        'disk'=> 'public'
     ]
 ];
