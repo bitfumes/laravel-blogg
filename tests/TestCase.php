@@ -10,7 +10,7 @@ use Bitfumes\Blogg\Models\Tag;
 
 class TestCase extends BaseTestCase
 {
-    public function setup()
+    public function setup() :void
     {
         parent::setUp();
         $this->withoutExceptionHandling();

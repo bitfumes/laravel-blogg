@@ -10,7 +10,7 @@ class LikeTest extends TestCase
     use DatabaseMigrations;
     protected $blog;
 
-    public function setup()
+    public function setup():void
     {
         parent::setUp();
         $this->loggedInUser();
