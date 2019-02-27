@@ -4,6 +4,8 @@ namespace Bitfumes\Blogg\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Bitfumes\Blogg\Events\BlogVisited;
+use Bitfumes\Blogg\Listeners\BlogVisitedListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -15,6 +17,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'Bitfumes\Blogg\Events\UploadImageEvent' => [
             'Bitfumes\Blogg\Listeners\UploadImageListener',
+        ],
+        BlogVisited::class => [
+            BlogVisitedListener::class
         ],
     ];
 

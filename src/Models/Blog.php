@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\Models\Media;
 use Bitfumes\Likker\Contracts\Likeable;
 use Bitfumes\Likker\Traits\CanBeLiked;
 use Bitfumes\Blogg\Events\UploadImageEvent;
+use Bitfumes\Visits\Visits;
 
 class Blog extends Model implements HasMedia, Likeable
 {
@@ -125,5 +126,10 @@ class Blog extends Model implements HasMedia, Likeable
     public function getThumbPathAttribute()
     {
         return $this->hasMedia('feature') ? $this->getMedia('feature')[0]->getUrl('thumb') : 'https://vuetifyjs.com/apple-touch-icon-180x180.png';
+    }
+
+    public function visit($key=null)
+    {
+        return new Visits($this, $key);
     }
 }

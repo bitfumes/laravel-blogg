@@ -11,6 +11,7 @@ use Bitfumes\Blogg\Http\Requests\BlogRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Bitfumes\Blogg\Models\Category;
 use Bitfumes\Blogg\Models\Tag;
+use Bitfumes\Blogg\Events\BlogVisited;
 
 class BlogController extends Controller
 {
@@ -79,6 +80,7 @@ class BlogController extends Controller
      */
     public function show(Category $category, Tag $tag, Blog $blog)
     {
+        event(new BlogVisited($blog));
         return new $this->blogResource($blog);
     }
 

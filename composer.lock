@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2ee4ae88c7dbaadd00f7404eb2b2c0f",
+    "content-hash": "568b3ee5d3c5e15e8414b0c97f31a4bc",
     "packages": [
         {
             "name": "bitfumes/laravel-likker",
@@ -53,6 +53,65 @@
             ],
             "description": "laravel like,laravel liker, laravel love, like, favorite",
             "time": "2018-10-10T18:22:03+00:00"
+        },
+        {
+            "name": "bitfumes/visits",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:sarthaksavvy/redis-visits.git",
+                "reference": "e9a11cc58a085cb440045c6003f7c9b62f0c7341"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sarthaksavvy/redis-visits/zipball/e9a11cc58a085cb440045c6003f7c9b62f0c7341",
+                "reference": "e9a11cc58a085cb440045c6003f7c9b62f0c7341",
+                "shasum": ""
+            },
+            "require": {
+                "predis/predis": "^1.1"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "^1.9@dev",
+                "illuminate/support": "^5.8@dev",
+                "mockery/mockery": "^1.0@dev",
+                "orchestra/database": "^3.8@dev",
+                "orchestra/testbench": "^3.8@dev",
+                "phpunit/phpunit": "^7.4@dev"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Bitfumes\\Visits\\VisitsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bitfumes\\Visits\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Bitfumes\\Visits\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sarthak Shrivastava",
+                    "email": "sarthak@bitfumes.com"
+                }
+            ],
+            "description": "Your Package Description here",
+            "support": {
+                "source": "https://github.com/sarthaksavvy/redis-visits/tree/master",
+                "issues": "https://github.com/sarthaksavvy/redis-visits/issues"
+            },
+            "time": "2019-01-11T17:31:58+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -412,12 +471,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "6c50a6299b2465053d317bd32845ede91db62393"
+                "reference": "fa745406c2f48210693ba05f11280a1473037b2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/6c50a6299b2465053d317bd32845ede91db62393",
-                "reference": "6c50a6299b2465053d317bd32845ede91db62393",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/fa745406c2f48210693ba05f11280a1473037b2f",
+                "reference": "fa745406c2f48210693ba05f11280a1473037b2f",
                 "shasum": ""
             },
             "require": {
@@ -470,7 +529,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2019-01-14T15:11:47+00:00"
+            "time": "2019-02-26T17:21:14+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -670,12 +729,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "ab0da3b3fc82d70ea1187dfe966bd7a41dacdeae"
+                "reference": "8ab09fb6377eb5b6dab45ab38b0a62446b08e8ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/ab0da3b3fc82d70ea1187dfe966bd7a41dacdeae",
-                "reference": "ab0da3b3fc82d70ea1187dfe966bd7a41dacdeae",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/8ab09fb6377eb5b6dab45ab38b0a62446b08e8ae",
+                "reference": "8ab09fb6377eb5b6dab45ab38b0a62446b08e8ae",
                 "shasum": ""
             },
             "require": {
@@ -808,7 +867,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-02-25T00:57:27+00:00"
+            "time": "2019-02-26T20:30:06+00:00"
         },
         {
             "name": "laravel/nexmo-notification-channel",
@@ -1700,6 +1759,56 @@
                 "promise"
             ],
             "time": "2017-11-22T21:24:54+00:00"
+        },
+        {
+            "name": "predis/predis",
+            "version": "v1.1.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nrk/predis.git",
+                "reference": "111d100ee389d624036b46b35ed0c9ac59c71313"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/111d100ee389d624036b46b35ed0c9ac59c71313",
+                "reference": "111d100ee389d624036b46b35ed0c9ac59c71313",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "suggest": {
+                "ext-curl": "Allows access to Webdis when paired with phpiredis",
+                "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Predis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniele Alessandri",
+                    "email": "suppakilla@gmail.com",
+                    "homepage": "http://clorophilla.net"
+                }
+            ],
+            "description": "Flexible and feature-complete Redis client for PHP and HHVM",
+            "homepage": "http://github.com/nrk/predis",
+            "keywords": [
+                "nosql",
+                "predis",
+                "redis"
+            ],
+            "time": "2017-07-12T14:39:17+00:00"
         },
         {
             "name": "psr/container",
@@ -2731,12 +2840,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "df89ab42c2f71e7bf1c8709a8948cf5787039be6"
+                "reference": "9947cbc58449ef0ec9aa64d4dcd15cd58963fb75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/df89ab42c2f71e7bf1c8709a8948cf5787039be6",
-                "reference": "df89ab42c2f71e7bf1c8709a8948cf5787039be6",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/9947cbc58449ef0ec9aa64d4dcd15cd58963fb75",
+                "reference": "9947cbc58449ef0ec9aa64d4dcd15cd58963fb75",
                 "shasum": ""
             },
             "require": {
@@ -2778,7 +2887,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-02-23T15:22:31+00:00"
+            "time": "2019-02-26T08:35:29+00:00"
         },
         {
             "name": "symfony/http-kernel",
@@ -5463,6 +5572,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "graham-campbell/markdown": 20,
+        "bitfumes/visits": 20,
         "mockery/mockery": 20,
         "illuminate/support": 20,
         "fzaninotto/faker": 20

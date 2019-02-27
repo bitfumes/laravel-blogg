@@ -45,6 +45,7 @@ class TestCase extends BaseTestCase
             'database' => ':memory:',
             'prefix'   => '',
         ]);
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
     }
 
     public function mediaLibraryConfigs()
