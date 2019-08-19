@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "492e20bb53ce77c6324460f8021e4065",
+    "content-hash": "fbbfc0bfaf544c30df78d74d8e013105",
     "packages": [
         {
             "name": "bitfumes/laravel-likker",
-            "version": "dev-master",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bitfumes/laravel-likker.git",
@@ -4696,7 +4696,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "bitfumes/laravel-likker": 20,
         "graham-campbell/markdown": 20,
         "bitfumes/visits": 20,
         "mockery/mockery": 20,

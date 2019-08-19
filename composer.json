@@ -11,7 +11,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "bitfumes/laravel-likker": "dev-master",
+    "bitfumes/laravel-likker": "^2.0",
     "graham-campbell/markdown": "^10.2@dev",
     "bitfumes/visits": "dev-master"
   },
