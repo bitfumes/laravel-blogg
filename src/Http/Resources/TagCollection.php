@@ -14,8 +14,7 @@ class TagCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        $tagResource = config('blogg.resource.tag');
-        $collection  = $tagResource::collection($this->collection);
+        $collection = TagResource::collection($this->collection);
         return [
             'data' => $collection
         ];

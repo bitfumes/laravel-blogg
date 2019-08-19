@@ -2,10 +2,9 @@
 
 namespace Bitfumes\Blogg\Http\Resources;
 
-use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BlogResource extends JsonResource
+class BlogsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,17 +14,14 @@ class BlogResource extends JsonResource
      */
     public function toArray($request)
     {
+        $categoryResource  = config('blogg.resources.category');
         return [
             $this->mergeWhen(request('editing'), ['id'  => $this->id]),
             'title'                => $this->title,
-            'body'                 => request('editing') ? $this->body : Markdown::convertToHtml($this->body),
             'path'                 => $this->path(),
             'slug'                 => $this->slug,
-            'category'             => new CategoryResource($this->category),
-            'tags'                 => new TagCollection($this->tags),
-            'user'                 => new UserResource($this->user),
+            'category'             => ['name'=>$this->category->name, 'slug'=> $this->category->slug],
             'likeCounts'           => $this->countLikes(),
-            'isLiked'              => !!$this->isLiked(),
             'image'                => $this->image,
             'published_at'         => $this->published ? $this->updated_at->diffForHumans() : null,
         ];

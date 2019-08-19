@@ -2,10 +2,10 @@
 
 namespace Bitfumes\Blogg\Tests\Unit;
 
-use Bitfumes\Blogg\Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Bitfumes\Blogg\Models\Blog;
+use Bitfumes\Blogg\Tests\TestCase;
 use GrahamCampbell\Markdown\Facades\Markdown;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class BlogTest extends TestCase
 {
@@ -37,7 +37,7 @@ class BlogTest extends TestCase
         $this->loggedInUser();
         $blog     = $this->createBlog();
         $blog->likeIt();
-        $this->assertEquals(1, $blog->countLikes());
+        $this->assertEquals(1, $blog->fresh()->countLikes());
     }
 
     /** @test */
@@ -46,21 +46,6 @@ class BlogTest extends TestCase
         $blog1 = $this->createPublishedBlog();
         $blog2 = $this->createBlog();
         $this->assertEquals(1, Blog::published()->count());
-    }
-
-    /** @test */
-    public function a_blog_also_get_its_own_image_and_thumb_path()
-    {
-        $this->mediaLibraryConfigs();
-        $blog = $this->createBlog();
-        $this->assertNull($blog->image_path);
-
-        $photo = \Illuminate\Http\Testing\File::image('photo.jpg');
-
-        $photo = 'data:image/png;base64,' . base64_encode(file_get_contents($photo));
-        $blog->addMediaFromBase64($photo)->toMediaCollection('feature');
-        $this->assertNotNull($blog->fresh()->image_path);
-        $this->assertNotNull($blog->fresh()->thumb_path);
     }
 
     /** @test */

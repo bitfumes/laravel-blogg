@@ -2,11 +2,12 @@
 
 namespace Bitfumes\Blogg\Tests;
 
-use Bitfumes\Blogg\BloggServiceProvider;
-use Orchestra\Testbench\TestCase as BaseTestCase;
+use Bitfumes\Blogg\Models\Tag;
 use Bitfumes\Blogg\Models\Blog;
 use Bitfumes\Blogg\Models\Category;
-use Bitfumes\Blogg\Models\Tag;
+use Illuminate\Support\Facades\Storage;
+use Bitfumes\Blogg\BloggServiceProvider;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {
@@ -46,34 +47,6 @@ class TestCase extends BaseTestCase
             'prefix'   => '',
         ]);
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-    }
-
-    public function mediaLibraryConfigs()
-    {
-        config()->set('medialibrary.max_file_size', 1024 * 1024 * 10);
-        config()->set('medialibrary.disk_name', 'public');
-        config()->set('medialibrary.media_model', \Spatie\MediaLibrary\Models\Media::class);
-        config()->set('medialibrary.image_optimizers', [
-            \Spatie\ImageOptimizer\Optimizers\Jpegoptim::class => [
-                '--strip-all', // this strips out all text information such as comments and EXIF data
-                '--all-progressive', // this will make sure the resulting image is a progressive one
-            ],
-            \Spatie\ImageOptimizer\Optimizers\Pngquant::class => [
-                '--force', // required parameter for this package
-            ],
-            \Spatie\ImageOptimizer\Optimizers\Optipng::class => [
-                '-i0', // this will result in a non-interlaced, progressive scanned image
-                '-o2', // this set the optimization level to two (multiple IDAT compression trials)
-                '-quiet', // required parameter for this package
-            ],
-            \Spatie\ImageOptimizer\Optimizers\Svgo::class => [
-                '--disable=cleanupIDs', // disabling because it is known to cause troubles
-            ],
-            \Spatie\ImageOptimizer\Optimizers\Gifsicle::class => [
-                '-b', // required parameter for this package
-                '-O3', // this produces the slowest but best results
-            ],
-        ]);
     }
 
     /**
@@ -147,5 +120,11 @@ class TestCase extends BaseTestCase
         $user = factory(User::class)->create();
         $this->actingAs($user, 'api');
         return $user;
+    }
+
+    public function removeImage($path)
+    {
+        Storage::disk('public')->delete($path . '.jpg');
+        Storage::disk('public')->delete($path . '_thumb.jpg');
     }
 }

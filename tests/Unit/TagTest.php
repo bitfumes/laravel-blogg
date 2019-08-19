@@ -2,8 +2,8 @@
 
 namespace Bitfumes\Blog\Tests\Unit;
 
-use Bitfumes\Blogg\Tests\TestCase;
 use Bitfumes\Blogg\Models\Tag;
+use Bitfumes\Blogg\Tests\TestCase;
 
 class TagTest extends TestCase
 {
@@ -43,7 +43,6 @@ class TagTest extends TestCase
     /** @test */
     public function tag_is_deleted_on_deletion_of_blog()
     {
-        $this->mediaLibraryConfigs();
         $blog         = $this->createBlog();
         $tags         = $this->createTag(2, []);
         $blog->tags()->attach($tags);

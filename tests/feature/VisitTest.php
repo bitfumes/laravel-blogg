@@ -3,13 +3,15 @@
 namespace Bitfumes\Blogg\Tests\Feature;
 
 use Bitfumes\Blogg\Tests\TestCase;
+use Illuminate\Support\Facades\Redis;
 
 class VisitTest extends TestCase
 {
     public function setup():void
     {
         parent::setUp();
-        $this->mediaLibraryConfigs();
+        Redis::del('127.0.0.1.testing_blogs.1.reads');
+        Redis::del('testing_blogs.1.reads');
         $this->tagIds = $this->createTag(2)->pluck('id');
     }
 

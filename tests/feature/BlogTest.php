@@ -3,11 +3,9 @@
 namespace Bitfumes\Blogg\Tests\Feature;
 
 use Bitfumes\Blogg\Tests\TestCase;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Bitfumes\Blogg\Models\Blog;
-use Bitfumes\Blogg\Http\Resources\BlogCollection;
-use Illuminate\Support\Facades\Event;
-use Bitfumes\Blogg\Events\UploadImageEvent;
 
 class BlogTest extends TestCase
 {
@@ -16,18 +14,20 @@ class BlogTest extends TestCase
     public function setup():void
     {
         parent::setUp();
-        $this->mediaLibraryConfigs();
         $this->tagIds = $this->createTag(2)->pluck('id');
     }
 
     /** @test */
     public function api_give_all_blog()
     {
-        $blog = new BlogCollection($this->createPublishedBlog(3));
-        // dd($blog->resolve());
+        $blog = $this->createPublishedBlog(23);
+        $this->loggedInUser();
+        $blog[0]->likeIt();
+        // DB::enableQueryLog();
         $res  = $this->post(route('blog.index'))
-        ->assertOk()
+        ->assertSuccessful()
         ->assertJsonStructure(['data', 'meta', 'links']);
+        // dd(DB::getQueryLog());
     }
 
     /** @test */
@@ -43,11 +43,13 @@ class BlogTest extends TestCase
     public function api_can_fetch_blog_by_category()
     {
         $category = $this->createCategory();
-        $this->createBlog(2, ['published'=>true, 'category_id' => $category->id]);
+        $this->createBlog(20, ['published'=>true, 'category_id' => $category->id]);
         $this->createBlog(2, ['published'=>true]);
+        // DB::enableQueryLog();
         $res = $this->postJson(route('blog.show.bycategory', $category->slug))->assertOk();
+        // dd(DB::getQueryLog());
         $res->assertJsonStructure(['data', 'meta', 'links']);
-        $this->assertEquals(2, $res->json()['meta']['total']);
+        $this->assertEquals(20, $res->json()['meta']['total']);
     }
 
     /** @test */
@@ -57,7 +59,9 @@ class BlogTest extends TestCase
         $blogWithTag = $this->createPublishedBlog();
         $blogWithTag->tags()->sync($tag);
         $this->createPublishedBlog();
+        // DB::enableQueryLog();
         $res = $this->postJson(route('blog.show.bytag', $tag->name))->assertOk();
+        // dd(DB::getQueryLog());
         $res->assertJsonStructure(['data', 'meta', 'links']);
         $this->assertEquals(1, $res->json()['meta']['total']);
     }
@@ -66,61 +70,50 @@ class BlogTest extends TestCase
     public function api_can_give_single_blog_details()
     {
         $blog = $this->createPublishedBlog();
-        $res  = $this->post($blog->path())
+        // DB::enableQueryLog();
+        $this->post($blog->path())
         ->assertOk()
         ->assertJsonStructure([
-            'data' => ['title', 'path', 'body', 'image_path', 'thumb_path', 'published_at']
+            'data' => ['title', 'path', 'body', 'image', 'published_at'],
         ]);
+        // dd(DB::getQueryLog());
     }
 
     /** @test */
     public function an_authorized_user_can_store_blog_and_tags()
     {
         $this->loggedInUser();
+        // DB::enableQueryLog();
         $res = $this->post(route('blog.store'), [
             'title'          => 'New Title',
             'body'           => 'This is a body',
             'category_id'    => $this->createCategory()->id,
-            'tag_ids'        => $this->tagIds
+            'image'          => 'asf',
+            'tag_ids'        => $this->tagIds,
         ])->assertStatus(201);
+        // dd(DB::getQueryLog());
         $this->assertDatabaseHas('blogs', ['slug'=>'new-title']);
         $this->assertDatabaseHas('taggables', ['tag_id'=>$this->tagIds->random()]);
     }
 
     /** @test */
-    public function an_authorized_user_can_store_blog_along_with_image_if_given()
+    public function while_storing_blog_it_also_store_image()
     {
-        $photo = \Illuminate\Http\Testing\File::image('photo.jpg');
-        $photo = 'data:image/png;base64,' . base64_encode(file_get_contents($photo));
-        $this->loggedInUser();
+        Storage::fake();
+        $image             = \Illuminate\Http\Testing\File::image('image.jpg');
+        $image             = base64_encode(file_get_contents($image));
 
+        $this->loggedInUser();
         $res = $this->post(route('blog.store'), [
             'title'          => 'New Title',
             'body'           => 'This is a body',
+            'image'          => "data:image/png;base64,{$image}",
             'category_id'    => $this->createCategory()->id,
-            'image'          => $photo,
-            'tag_ids'        => $this->tagIds
-        ])->assertStatus(201);
-        $blog = Blog::find(1);
-        // dd($blog->getMedia()[0]->getUrl('thumb'));
-        $this->assertDatabaseHas('media', ['model_id'=>1]);
-    }
-
-    /** @test */
-    public function featured_image_is_uploaded_via_event()
-    {
-        $this->loggedInUser();
-
-        Event::fake();
-        $res = $this->post(route('blog.store'), [
-            'title'          => 'New Title',
-            'body'           => 'This is a body',
-            'category_id'    => $this->createCategory()->id,
-            'image'          => '$photo',
             'tag_ids'        => $this->tagIds,
-            'slug'           => 'acb'
-        ])->assertStatus(201);
-        Event::assertDispatched(UploadImageEvent::class);
+        ])->assertStatus(201)->json();
+        Storage::disk('public')->assertExists($res['image'] . '.jpg');
+        $this->assertDatabaseHas('blogs', ['title' =>'New Title']);
+        $this->removeImage($res['image']);
     }
 
     /** @test */
@@ -132,9 +125,43 @@ class BlogTest extends TestCase
             'title'          => 'New Title',
             'body'           => $blog->body,
             'category_id'    => $blog->category->id,
-            'tag_ids'        => $this->tagIds
+            'tag_ids'        => $this->tagIds,
+            'image'          => 'sdf',
         ])->assertStatus(202);
         $this->assertDatabaseHas('blogs', ['slug' => 'new-title']);
+    }
+
+    /** @test */
+    public function an_authorized_user_can_update_blog_image_with_old_image_removed()
+    {
+        $this->loggedInUser();
+        Storage::fake();
+
+        $image             = \Illuminate\Http\Testing\File::image('image.jpg');
+        $image             = 'data:image/png;base64,' . base64_encode(file_get_contents($image));
+
+        $res = $this->post(route('blog.store'), [
+            'title'          => 'New Title',
+            'body'           => 'This is a body',
+            'image'          => $image,
+            'category_id'    => $this->createCategory()->id,
+            'tag_ids'        => $this->tagIds,
+        ])->assertStatus(201)->json();
+        $oldPath           = $res['image'];
+        Storage::disk('public')->assertExists($res['image'] . '.jpg');
+
+        $res               = $this->putJson(route('blog.update', 'new-title'), [
+            'id'             => 1,
+            'title'          => 'New Title',
+            'body'           => 'This is a body',
+            'image'          => $image,
+            'category_id'    => $this->createCategory()->id,
+            'tag_ids'        => $this->tagIds,
+        ])->assertSuccessful()->json();
+
+        Storage::disk('public')->assertExists($res['image'] . '.jpg');
+        Storage::disk('public')->assertMissing($oldPath . '.jpg');
+        $this->removeImage($res['image']);
     }
 
     /** @test */

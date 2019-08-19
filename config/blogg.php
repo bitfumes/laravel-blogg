@@ -4,26 +4,26 @@ return [
     'paginate'      => 15,
     'include_views' => false,
     'middleware'    => 'auth',
-    'thumb'         => [
-        'width'   => 368,
-        'height'  => 232,
-        'sharpen' => 10
-    ],
-    'models' => [
+    'models'        => [
         'user'    => App\User::class,
         'category'=> Bitfumes\Blogg\Models\Category::class,
-        'tag'     => Bitfumes\Blogg\Models\Tag::class
+        'tag'     => Bitfumes\Blogg\Models\Tag::class,
     ],
-    'resource' => [
-        'user'               => Bitfumes\Blogg\Http\Resources\UserResource::class,
-        'blog'               => Bitfumes\Blogg\Http\Resources\BlogResource::class,
-        'blogCollection'     => Bitfumes\Blogg\Http\Resources\BlogCollection::class,
-        'tag'                => Bitfumes\Blogg\Http\Resources\TagResource::class,
-        'tagCollection'      => Bitfumes\Blogg\Http\Resources\TagCollection::class,
-        'category'           => Bitfumes\Blogg\Http\Resources\CategoryResource::class,
-        'categoryCollection' => Bitfumes\Blogg\Http\Resources\CategoryCollection::class
+    'resources' => [
+        'blog'     => Bitfumes\Blogg\Http\Resources\BlogResource::class,
+        'blogs'    => Bitfumes\Blogg\Http\Resources\BlogsResource::class,
+        'category' => Bitfumes\Blogg\Http\Resources\CategoryResource::class,
+        'user'     => Bitfumes\Blogg\Http\Resources\UserResource::class,
+        'tag'      => Bitfumes\Blogg\Http\Resources\TagResource::class,
+    ],
+    'image'      => [
+        'path'       => 'blogs',
+        'thumb'      => [
+            'width'  => 368,
+            'height' => 232,
+        ],
     ],
     'storage' => [
-        'disk'=> 'public'
-    ]
+        'disk' => 'public',
+    ],
 ];

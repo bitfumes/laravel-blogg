@@ -17,7 +17,7 @@ class CreateBlogsTable extends Migration
             $table->increments('id');
             $table->string('title')->unique();
             $table->string('slug');
-            // $table->string('image_path')->nullable();
+            $table->string('image')->nullable();
             $table->longText('body');
             $table->boolean('published')->default(0);
             $table->unsignedInteger('user_id')->nullable();

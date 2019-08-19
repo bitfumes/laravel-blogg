@@ -2,29 +2,17 @@
 
 namespace Bitfumes\Blogg\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\Models\Media;
-use Bitfumes\Likker\Contracts\Likeable;
-use Bitfumes\Likker\Traits\CanBeLiked;
-use Bitfumes\Blogg\Events\UploadImageEvent;
 use Bitfumes\Visits\Visits;
+use Bitfumes\Blogg\Traits\ImageUpload;
+use Bitfumes\Likker\Traits\CanBeLiked;
+use Bitfumes\Likker\Contracts\Likeable;
+use Illuminate\Database\Eloquent\Model;
 
-class Blog extends Model implements HasMedia, Likeable
+class Blog extends Model implements Likeable
 {
-    use HasMediaTrait, CanBeLiked;
+    use ImageUpload, CanBeLiked;
 
-    public function registerMediaConversions(Media $media = null)
-    {
-        $this->addMediaConversion('thumb')
-            ->width(config('blogg.thumb.width'))
-            ->height(config('blogg.thumb.height'))
-            ->sharpen(config('blogg.thumb.sharpen'))
-            ->nonQueued();
-    }
-
-    protected $fillable = ['title', 'slug', 'body', 'published', 'user_id', 'category_id'];
+    protected $fillable = ['title', 'slug', 'body', 'published', 'image', 'user_id', 'category_id'];
 
     protected static function boot()
     {
@@ -43,22 +31,17 @@ class Blog extends Model implements HasMedia, Likeable
 
     public static function store($request)
     {
-        $blog = Self::create($request->except('image', 'tag_ids'));
+        $request['image'] = (new self())->uploadImage($request->image);
+        $blog             = Self::create($request->except('tag_ids'));
         $blog->tags()->sync(request('tag_ids'));
-        (new self)->dispatchImageUpload($blog, request('image'));
         return $blog;
     }
 
-    public function updateAll($data)
+    public function updateAll($request)
     {
-        $this->update($data);
+        $request['image'] = $this->removeAndUpload($request->image);
+        $this->update($request->all());
         $this->tags()->sync(request('tag_ids'));
-        $this->dispatchImageUpload($this, request('image'));
-    }
-
-    protected function dispatchImageUpload($blog, $image)
-    {
-        event(new UploadImageEvent($blog, $image));
     }
 
     /**
@@ -116,16 +99,6 @@ class Blog extends Model implements HasMedia, Likeable
     public function path()
     {
         return asset("api/blog/{$this->category->slug}/{$this->slug}");
-    }
-
-    public function getImagePathAttribute()
-    {
-        return $this->hasMedia('feature') ? $this->getMedia('feature')[0]->getUrl() : null;
-    }
-
-    public function getThumbPathAttribute()
-    {
-        return $this->hasMedia('feature') ? $this->getMedia('feature')[0]->getUrl('thumb') : 'https://vuetifyjs.com/apple-touch-icon-180x180.png';
     }
 
     public function visit($key=null)
