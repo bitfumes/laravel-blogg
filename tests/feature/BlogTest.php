@@ -165,12 +165,26 @@ class BlogTest extends TestCase
     }
 
     /** @test */
-    public function an_authorized_user_can_delete_a_blog()
+    public function an_authorized_user_can_delete_a_blog_with_image_on_storage()
     {
         $this->loggedInUser();
-        $blog = $this->createBlog();
-        $this->deleteJson(route('blog.destroy', ['category'=>$blog->category, 'blog'=> $blog->slug]))->assertStatus(204);
-        $this->assertDatabaseMissing('blogs', ['title'=>$blog->title]);
+        Storage::fake();
+
+        $image             = \Illuminate\Http\Testing\File::image('image.jpg');
+        $image             = 'data:image/png;base64,' . base64_encode(file_get_contents($image));
+
+        $blog = $this->post(route('blog.store'), [
+            'title'          => 'New Title',
+            'body'           => 'This is a body',
+            'image'          => $image,
+            'category_id'    => $this->createCategory()->id,
+            'tag_ids'        => $this->tagIds,
+        ])->assertStatus(201)->json();
+        $oldPath           = $blog['image'];
+
+        $this->deleteJson(route('blog.destroy', ['category'=>$blog['category']['slug'], 'blog'=> $blog['slug']]))->assertStatus(204);
+        Storage::disk('public')->assertMissing($blog['image'] . '.jpg');
+        $this->assertDatabaseMissing('blogs', ['title'=>$blog['title']]);
     }
 
     /** @test */

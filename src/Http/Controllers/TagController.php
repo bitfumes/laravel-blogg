@@ -26,7 +26,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        $categories = $this->tag::all();
+        $categories = $this->tag::paginate(15);
         return $this->tagResource::collection($categories);
     }
 

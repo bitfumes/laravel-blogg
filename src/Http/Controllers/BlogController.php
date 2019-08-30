@@ -8,6 +8,7 @@ use Bitfumes\Blogg\Models\Blog;
 use Illuminate\Routing\Controller;
 use Bitfumes\Blogg\Models\Category;
 use Bitfumes\Blogg\Events\BlogVisited;
+use Illuminate\Support\Facades\Storage;
 use Bitfumes\Blogg\Http\Requests\BlogRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Bitfumes\Blogg\Http\Resources\BlogResource;
@@ -103,6 +104,9 @@ class BlogController extends Controller
     public function destroy(Category $category, Blog $blog)
     {
         $blog->delete();
+        $disk     = config('blogg.storage.disk');
+        Storage::disk($disk)->delete("{$blog->image}.jpg");
+        Storage::disk($disk)->delete("{$blog->image}_thumb.jpg");
         return response(null, Response::HTTP_NO_CONTENT);
     }
 

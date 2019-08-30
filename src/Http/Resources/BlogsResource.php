@@ -22,7 +22,8 @@ class BlogsResource extends JsonResource
             'slug'                 => $this->slug,
             'category'             => ['name'=>$this->category->name, 'slug'=> $this->category->slug],
             'likeCounts'           => $this->countLikes(),
-            'image'                => $this->image,
+            'image'                => $this->image ? "{$this->image}.jpg" : '',
+            'thumb'                => $this->image ? "{$this->image}_thumb.jpg" : '',
             'published_at'         => $this->published ? $this->updated_at->diffForHumans() : null,
         ];
     }
