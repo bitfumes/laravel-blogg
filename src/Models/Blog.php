@@ -3,6 +3,7 @@
 namespace Bitfumes\Blogg\Models;
 
 use Bitfumes\Visits\Visits;
+use Illuminate\Support\Str;
 use Bitfumes\Blogg\Traits\ImageUpload;
 use Bitfumes\Likker\Traits\CanBeLiked;
 use Bitfumes\Likker\Contracts\Likeable;
@@ -13,6 +14,8 @@ class Blog extends Model implements Likeable
     use ImageUpload, CanBeLiked;
 
     protected $fillable = ['title', 'slug', 'body', 'published', 'image', 'user_id', 'category_id'];
+
+    protected $casts = ['published' => 'boolean'];
 
     protected static function boot()
     {
@@ -31,8 +34,9 @@ class Blog extends Model implements Likeable
 
     public static function store($request)
     {
-        $request['image'] = (new self())->uploadImage($request->image);
-        $blog             = Self::create($request->except('tag_ids'));
+        $request['image']   = (new self())->uploadImage($request->image);
+        $request['user_id'] = auth()->id();
+        $blog               = Self::create($request->except('tag_ids'));
         $blog->tags()->sync(request('tag_ids'));
         return $blog;
     }
@@ -49,7 +53,7 @@ class Blog extends Model implements Likeable
      */
     public static function setSlug($blog)
     {
-        $blog->slug = str_slug($blog->title);
+        $blog->slug = Str::slug($blog->title);
     }
 
     /**

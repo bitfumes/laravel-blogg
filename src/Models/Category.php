@@ -2,6 +2,7 @@
 
 namespace Bitfumes\Blogg\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -20,7 +21,7 @@ class Category extends Model
      */
     public static function setSlug($category)
     {
-        $category->slug = str_slug($category->name);
+        $category->slug = Str::slug($category->name);
     }
 
     public function blogs()

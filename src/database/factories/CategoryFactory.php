@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
 /*
@@ -17,6 +18,6 @@ $factory->define(\Bitfumes\Blogg\Models\Category::class, function (Faker $faker)
     $category = "{$faker->word} {$faker->word}";
     return [
         'name' => $category,
-        'slug' => str_slug($category)
+        'slug' => Str::slug($category),
     ];
 });
