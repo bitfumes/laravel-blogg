@@ -4,29 +4,29 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1cb0a6e9b3f0940a3bc0f2da9b3da768",
+    "content-hash": "f6551de0b50a01cc82622b32f6f3cf1d",
     "packages": [
         {
             "name": "bitfumes/laravel-likker",
-            "version": "v2.0.1",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bitfumes/laravel-likker.git",
-                "reference": "1efa6cb6aff49b9fc077467fd7df98576f45cb33"
+                "reference": "816106951037e66ac66dd6cb464aca95fd24e170"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bitfumes/laravel-likker/zipball/1efa6cb6aff49b9fc077467fd7df98576f45cb33",
-                "reference": "1efa6cb6aff49b9fc077467fd7df98576f45cb33",
+                "url": "https://api.github.com/repos/bitfumes/laravel-likker/zipball/816106951037e66ac66dd6cb464aca95fd24e170",
+                "reference": "816106951037e66ac66dd6cb464aca95fd24e170",
                 "shasum": ""
             },
             "require-dev": {
                 "fzaninotto/faker": "^1.9@dev",
-                "illuminate/support": "^5.8@dev",
+                "illuminate/support": "^5.8|^6.0",
                 "mockery/mockery": "^1.0@dev",
-                "orchestra/database": "^3.8@dev",
-                "orchestra/testbench": "^3.8@dev",
-                "phpunit/phpunit": "^7.4@dev"
+                "orchestra/database": "^4.0",
+                "orchestra/testbench": "^4.0",
+                "phpunit/phpunit": "^8.0"
             },
             "type": "library",
             "extra": {
@@ -52,7 +52,7 @@
                 }
             ],
             "description": "laravel like,laravel liker, laravel love, like, favorite",
-            "time": "2019-08-26T05:17:09+00:00"
+            "time": "2019-09-10T04:40:01+00:00"
         },
         {
             "name": "bitfumes/visits",
