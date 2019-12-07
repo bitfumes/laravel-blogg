@@ -19,7 +19,7 @@ class VisitTest extends TestCase
     public function when_blog_is_visited_then_it_will_be_recorded()
     {
         $blog = $this->createPublishedBlog();
-        $res  = $this->getJson($blog->path())->json();
+        $res  = $this->postJson($blog->path())->json();
         $this->assertEquals(1, $blog->visit('testing_blogs')->count());
     }
 }
