@@ -5,7 +5,7 @@ Route::group(['prefix' => 'api/blog'], function () {
     Route::apiResource('category', 'CategoryController');
     Route::apiResource('tag', 'TagController');
     // frontend
-    Route::get('/', 'BlogController@index')->name('blog.index');
+    Route::post('/', 'BlogController@index')->name('blog.index');
     // Backend
     Route::post('/all', 'BlogController@all')->name('blog.all');
     Route::post('/store', 'BlogController@store')->name('blog.store');
