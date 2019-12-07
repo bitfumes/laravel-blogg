@@ -24,7 +24,7 @@ class BlogTest extends TestCase
         $this->loggedInUser();
         $blog[0]->likeIt();
         // DB::enableQueryLog();
-        $res  = $this->post(route('blog.index'))
+        $res  = $this->getJson(route('blog.index'))
         ->assertSuccessful()
         ->assertJsonStructure(['data', 'meta', 'links']);
         // dd(DB::getQueryLog());
@@ -35,7 +35,7 @@ class BlogTest extends TestCase
     {
         $blog = $this->createPublishedBlog(10);
         $this->createBlog(3);
-        $res = $this->post(route('blog.index'))->assertOk();
+        $res = $this->getJson(route('blog.index'))->assertOk();
         $this->assertEquals(10, $res->baseResponse->getData()->meta->total);
     }
 
