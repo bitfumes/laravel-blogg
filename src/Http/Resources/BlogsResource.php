@@ -15,11 +15,14 @@ class BlogsResource extends JsonResource
     public function toArray($request)
     {
         $categoryResource  = config('blogg.resources.category');
+        $userResource     = config('blogg.resources.user');
+
         return [
             $this->mergeWhen(request('editing'), ['id'  => $this->id]),
             'title'                => $this->title,
             'path'                 => $this->path(),
             'slug'                 => $this->slug,
+            'creator'              => new $userResource($this->user),
             'category'             => ['name' => $this->category->name, 'slug' => $this->category->slug, 'theme' => $this->category->theme],
             'likeCounts'           => $this->countLikes(),
             'image'                => $this->image ? "{$this->image}.jpg" : '',
