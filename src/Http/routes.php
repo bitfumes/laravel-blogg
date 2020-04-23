@@ -4,8 +4,11 @@ Route::group(['prefix' => 'api/blog'], function () {
     Route::post('search/category/{query}', 'CategoryController@search');
     Route::apiResource('category', 'CategoryController');
     Route::apiResource('tag', 'TagController');
+
     // frontend
     Route::post('/', 'BlogController@index')->name('blog.index');
+    Route::post('user/blogs', 'UserBlogController@index')->name('user.blogs');
+
     // Backend
     Route::post('/all', 'BlogController@all')->name('blog.all');
     Route::post('/store', 'BlogController@store')->name('blog.store');
