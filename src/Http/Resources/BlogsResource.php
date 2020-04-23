@@ -20,7 +20,7 @@ class BlogsResource extends JsonResource
             'title'                => $this->title,
             'path'                 => $this->path(),
             'slug'                 => $this->slug,
-            'category'             => ['name'=>$this->category->name, 'slug'=> $this->category->slug, 'theme' => $this->category->theme],
+            'category'             => ['name' => $this->category->name, 'slug' => $this->category->slug, 'theme' => $this->category->theme],
             'likeCounts'           => $this->countLikes(),
             'image'                => $this->image ? "{$this->image}.jpg" : '',
             'thumb'                => $this->image ? "{$this->image}_thumb.jpg" : '',

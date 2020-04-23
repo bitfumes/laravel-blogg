@@ -11,7 +11,7 @@ class BlogTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function setup():void
+    public function setup(): void
     {
         parent::setUp();
         $this->tagIds = $this->createTag(2)->pluck('id');
@@ -25,8 +25,8 @@ class BlogTest extends TestCase
         $blog[0]->likeIt();
         // DB::enableQueryLog();
         $res  = $this->postJson(route('blog.index'))
-        ->assertSuccessful()
-        ->assertJsonStructure(['data', 'meta', 'links']);
+            ->assertSuccessful()
+            ->assertJsonStructure(['data', 'meta', 'links']);
         // dd(DB::getQueryLog());
     }
 
@@ -43,8 +43,8 @@ class BlogTest extends TestCase
     public function api_can_fetch_blog_by_category()
     {
         $category = $this->createCategory();
-        $this->createBlog(20, ['published'=>true, 'category_id' => $category->id]);
-        $this->createBlog(2, ['published'=>true]);
+        $this->createBlog(20, ['published' => true, 'category_id' => $category->id]);
+        $this->createBlog(2, ['published' => true]);
         // DB::enableQueryLog();
         $res = $this->postJson(route('blog.show.bycategory', $category->slug))->assertOk();
         // dd(DB::getQueryLog());
@@ -72,10 +72,10 @@ class BlogTest extends TestCase
         $blog = $this->createPublishedBlog();
         // DB::enableQueryLog();
         $this->post($blog->path())
-        ->assertOk()
-        ->assertJsonStructure([
-            'data' => ['title', 'path', 'body', 'image', 'published_at'],
-        ]);
+            ->assertOk()
+            ->assertJsonStructure([
+                'data' => ['title', 'path', 'body', 'image', 'published_at'],
+            ]);
         // dd(DB::getQueryLog());
     }
 
@@ -92,8 +92,8 @@ class BlogTest extends TestCase
             'tag_ids'        => $this->tagIds,
         ])->assertStatus(201);
         // dd(DB::getQueryLog());
-        $this->assertDatabaseHas('blogs', ['slug'=>'new-title']);
-        $this->assertDatabaseHas('taggables', ['tag_id'=>$this->tagIds->random()]);
+        $this->assertDatabaseHas('blogs', ['slug' => 'new-title']);
+        $this->assertDatabaseHas('taggables', ['tag_id' => $this->tagIds->random()]);
     }
 
     /** @test */
@@ -112,7 +112,7 @@ class BlogTest extends TestCase
             'tag_ids'        => $this->tagIds,
         ])->assertStatus(201)->json();
         Storage::disk('public')->assertExists($res['image'] . '.jpg');
-        $this->assertDatabaseHas('blogs', ['title' =>'New Title']);
+        $this->assertDatabaseHas('blogs', ['title' => 'New Title']);
         $this->removeImage($res['image']);
     }
 
@@ -120,7 +120,7 @@ class BlogTest extends TestCase
     public function an_authorized_user_can_update_blog_details()
     {
         $this->loggedInUser();
-        $blog = $this->createBlog();
+        $blog = $this->createBlog(1, ['user_id' => auth()->id()])[0];
         $this->put(route('blog.update', $blog->slug), [
             'title'          => 'New Title',
             'body'           => $blog->body,
@@ -128,7 +128,7 @@ class BlogTest extends TestCase
             'tag_ids'        => $this->tagIds,
             'image'          => 'sdf',
         ])->assertStatus(202);
-        $this->assertDatabaseHas('blogs', ['slug' => 'new-title']);
+        $this->assertDatabaseHas('blogs', ['slug' => 'new-title', 'user_id' => 1]);
     }
 
     /** @test */
@@ -182,9 +182,9 @@ class BlogTest extends TestCase
         ])->assertStatus(201)->json();
         $oldPath           = $blog['image'];
 
-        $this->deleteJson(route('blog.destroy', ['category'=>$blog['category']['slug'], 'blog'=> $blog['slug']]))->assertStatus(204);
+        $this->deleteJson(route('blog.destroy', ['category' => $blog['category']['slug'], 'blog' => $blog['slug']]))->assertStatus(204);
         Storage::disk('public')->assertMissing($blog['image'] . '.jpg');
-        $this->assertDatabaseMissing('blogs', ['title'=>$blog['title']]);
+        $this->assertDatabaseMissing('blogs', ['title' => $blog['title']]);
     }
 
     /** @test */

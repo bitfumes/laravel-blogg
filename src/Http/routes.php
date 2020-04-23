@@ -7,7 +7,7 @@ Route::group(['prefix' => 'api/blog'], function () {
 
     // frontend
     Route::post('/', 'BlogController@index')->name('blog.index');
-    Route::post('user/blogs', 'UserBlogController@index')->name('user.blogs');
+    Route::post('user', 'UserBlogController@index')->name('user.blog');
 
     // Backend
     Route::post('/all', 'BlogController@all')->name('blog.all');

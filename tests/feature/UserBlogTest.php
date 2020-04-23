@@ -11,6 +11,7 @@ class UserBlogTest extends TestCase
         parent::setup();
         $user = $this->createUser();
         $this->actingAs($user);
+        $this->tagIds = $this->createTag(2)->pluck('id');
     }
 
     /** @test */
@@ -18,7 +19,7 @@ class UserBlogTest extends TestCase
     {
         $blogs = $this->createBlog(2, ['user_id' => auth()->id()]);
         $this->createBlog();
-        $res = $this->post(route('user.blogs'));
+        $res = $this->post(route('user.blog'));
         $this->assertEquals(2, count($res->json()['data']));
     }
 }

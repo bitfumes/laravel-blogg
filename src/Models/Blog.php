@@ -105,7 +105,7 @@ class Blog extends Model implements Likeable
         return asset("api/blog/{$this->category->slug}/{$this->slug}");
     }
 
-    public function visit($key=null)
+    public function visit($key = null)
     {
         return new Visits($this, $key);
     }

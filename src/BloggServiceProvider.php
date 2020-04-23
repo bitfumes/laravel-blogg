@@ -2,6 +2,7 @@
 
 namespace Bitfumes\Blogg;
 
+use Bitfumes\Blogg\Providers\AuthServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use GrahamCampbell\Markdown\MarkdownServiceProvider;
@@ -21,6 +22,7 @@ class BloggServiceProvider extends ServiceProvider
     {
         app()->register(MarkdownServiceProvider::class);
         app()->register(EventServiceProvider::class);
+        app()->register(AuthServiceProvider::class);
     }
 
     /**
@@ -50,10 +52,10 @@ class BloggServiceProvider extends ServiceProvider
     }
 
     /**
-    * Get the Blogg route group configuration array.
-    *
-    * @return array
-    */
+     * Get the Blogg route group configuration array.
+     *
+     * @return array
+     */
     private function routeConfiguration()
     {
         return [

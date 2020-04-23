@@ -6,7 +6,7 @@ return [
     'middleware'    => 'auth',
     'models'        => [
         'user'    => App\User::class,
-        'category'=> Bitfumes\Blogg\Models\Category::class,
+        'category' => Bitfumes\Blogg\Models\Category::class,
         'tag'     => Bitfumes\Blogg\Models\Tag::class,
     ],
     'resources' => [

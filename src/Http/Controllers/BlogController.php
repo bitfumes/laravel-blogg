@@ -13,9 +13,11 @@ use Bitfumes\Blogg\Http\Requests\BlogRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Bitfumes\Blogg\Http\Resources\BlogResource;
 use Bitfumes\Blogg\Http\Resources\BlogCollection;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class BlogController extends Controller
 {
+    use AuthorizesRequests;
     private $blogsResource;
     private $blogResource;
 
@@ -23,7 +25,6 @@ class BlogController extends Controller
     {
         $this->blogResource  = config('blogg.resources.blog');
         $this->blogsResource = config('blogg.resources.blogs');
-        $this->middleware(config('blogg.middleware'))->except('index', 'show', 'byCategory', 'byTag');
     }
 
     /**
@@ -55,6 +56,7 @@ class BlogController extends Controller
      */
     public function store(BlogRequest $request)
     {
+        $this->authorize('create', Blog::class);
         $blog = Blog::store($request);
         return response(new $this->blogResource($blog), Response::HTTP_CREATED);
     }
@@ -91,6 +93,7 @@ class BlogController extends Controller
      */
     public function update(BlogRequest $request, Blog $blog)
     {
+        $this->authorize('update', $blog);
         $blog->updateAll($request);
         return response(new $this->blogResource($blog), Response::HTTP_ACCEPTED);
     }
@@ -103,6 +106,7 @@ class BlogController extends Controller
      */
     public function destroy(Category $category, Blog $blog)
     {
+        $this->authorize('delete', $blog);
         $blog->delete();
         $disk     = config('blogg.storage.disk');
         Storage::disk($disk)->delete("{$blog->image}.jpg");
