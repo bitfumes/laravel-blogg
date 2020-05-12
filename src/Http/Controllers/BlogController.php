@@ -2,7 +2,6 @@
 
 namespace Bitfumes\Blogg\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Bitfumes\Blogg\Models\Tag;
 use Bitfumes\Blogg\Models\Blog;
 use Illuminate\Routing\Controller;
@@ -69,6 +68,7 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
+        $this->authorize('edit', Blog::class);
         return new $this->blogResource($blog);
     }
 
@@ -112,6 +112,13 @@ class BlogController extends Controller
         Storage::disk($disk)->delete("{$blog->image}.jpg");
         Storage::disk($disk)->delete("{$blog->image}_thumb.jpg");
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function togglePublish(Blog $blog)
+    {
+        $this->authorize('update', $blog);
+        $blog->update(['published'=>request()->published]);
+        return response(null, Response::HTTP_ACCEPTED);
     }
 
     /**

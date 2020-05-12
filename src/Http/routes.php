@@ -23,4 +23,6 @@ Route::group(['prefix' => 'api/blog'], function () {
     // Backend
     Route::patch('/{blog}', 'BlogController@edit')->name('blog.edit');
     Route::put('/{blog}', 'BlogController@update')->name('blog.update');
+
+    Route::patch('blog/{blog}/publish', 'BlogController@togglePublish')->name('blog.togglePublish');
 });
