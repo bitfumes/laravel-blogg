@@ -68,7 +68,7 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        $this->authorize('edit', Blog::class);
+        $this->authorize('edit', $blog);
         return new $this->blogResource($blog);
     }
 
