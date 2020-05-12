@@ -17,6 +17,7 @@ class UserResource extends JsonResource
         return [
             'name'     => $this->name,
             'avatar'   => $this->avatar ? $this->avatar : null
+            'fumesid'   => $this->fumesid
         ];
     }
 }
