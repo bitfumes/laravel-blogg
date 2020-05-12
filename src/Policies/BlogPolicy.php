@@ -2,7 +2,6 @@
 
 namespace Bitfumes\Blogg\Policies;
 
-use Bitfumes\Blogg\Tests\User;
 use Bitfumes\Blogg\Models\Blog;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -22,12 +21,12 @@ class BlogPolicy
         return true;
     }
 
-    public function update(User $user, Blog $blog)
+    public function update($user, Blog $blog)
     {
         return $user->id == $blog->user_id;
     }
 
-    public function edit(User $user, Blog $blog)
+    public function edit($user, Blog $blog)
     {
         return $user->id == $blog->user_id;
     }
