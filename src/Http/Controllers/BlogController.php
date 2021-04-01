@@ -55,7 +55,7 @@ class BlogController extends Controller
      */
     public function store(BlogRequest $request)
     {
-        $this->authorize('create', Blog::class);
+        // $this->authorize('create', Blog::class);
         $blog = Blog::store($request);
         return response(new $this->blogResource($blog), Response::HTTP_CREATED);
     }

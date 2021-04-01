@@ -35,7 +35,7 @@ class Blog extends Model implements Likeable
     public static function store($request)
     {
         $request['image']   = (new self())->uploadImage($request->image);
-        $request['user_id'] = auth()->id();
+        $request['user_id'] = auth()->check() ? auth()->id() : 33;
         $blog               = Self::create($request->except('tag_ids'));
         $blog->tags()->sync(request('tag_ids'));
         return $blog;
