@@ -19,6 +19,15 @@ class TagTest extends TestCase
     }
 
     /** @test */
+    public function api_can_give_all_tags_without_pagination()
+    {
+        $this->createTag(5);
+        $res = $this->getJson(route('tag.all'))
+        ->assertOk()
+        ->assertJsonStructure(['data']);
+    }
+
+    /** @test */
     public function api_can_give_single_tag()
     {
         $tag = $this->createtag();

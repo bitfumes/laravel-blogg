@@ -3,6 +3,7 @@
 Route::group(['prefix' => 'api/blog'], function () {
     Route::post('search/category/{query}', 'CategoryController@search');
     Route::apiResource('category', 'CategoryController');
+    Route::get('tag/all', 'TagController@all')->name('tag.all');
     Route::apiResource('tag', 'TagController');
 
     // frontend

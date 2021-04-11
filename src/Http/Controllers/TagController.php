@@ -15,7 +15,7 @@ class TagController extends Controller
     public function __construct()
     {
         $this->tagResource   = config('blogg.resources.tag');
-        $this->middleware(config('blogg.middleware'))->except('index', 'show');
+        $this->middleware(config('blogg.middleware'))->except('index', 'show', 'all');
         $this->tag = config('blogg.models.tag');
     }
 
@@ -27,6 +27,17 @@ class TagController extends Controller
     public function index()
     {
         $categories = $this->tag::paginate(15);
+        return $this->tagResource::collection($categories);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function all()
+    {
+        $categories = $this->tag::all();
         return $this->tagResource::collection($categories);
     }
 
